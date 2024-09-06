@@ -38,6 +38,9 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Override
     public List<LoanProductResponseDto> findAll() {
-        return null;
+
+        return loanProductRepository.findAll().stream()
+                .map(LoanProductResponseDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }
