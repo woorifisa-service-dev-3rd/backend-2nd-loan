@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
@@ -14,29 +15,29 @@ public class LoanProductResponseDto {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int interestRate;
-    private int MaxLimit;
-    private LocalDate repaymentPeriod;
-    private int requiredCreditScore;
-    private LoanProductsType loanProductsType;
-    private Provider provider;
-    private LoanProductsFeature loanProductsFeatures;
-    private ApplicationMethod applicationMethod;
+    private BigDecimal interestRate;
+    private Integer maxLimit;
+    private Long repaymentPeriod;
+    private Integer requiredCreditScore;
+    private String loanProductsTypeName;  // loanProductsType의 이름만 반환
+    private String provider;
+    private String loanProductsFeature;
+    private String applicationMethod;
 
-
-
+    // fromEntity() 메소드에서 memberLoanProducts 제외
     public static LoanProductResponseDto fromEntity(LoanProduct loanProduct) {
         return LoanProductResponseDto.builder()
                 .id(loanProduct.getId())
                 .startDate(loanProduct.getStartDate())
                 .endDate(loanProduct.getEndDate())
                 .interestRate(loanProduct.getInterestRate())
-                .MaxLimit(loanProduct.getMaxLimit())
+                .maxLimit(loanProduct.getMaxLimit())
                 .repaymentPeriod(loanProduct.getRepaymentPeriod())
                 .requiredCreditScore(loanProduct.getRequiredCreditScore())
-                .loanProductsType(loanProduct.getLoanProductsType())
-                .provider(loanProduct.getProvider())
-                .loanProductsFeatures(loanProduct.getLoanProductsFeatures())
-                .applicationMethod(loanProduct.getApplicationMethod()).build();
+                .loanProductsTypeName(loanProduct.getLoanProductsType().getName())
+                .provider(loanProduct.getProvider().getName())
+                .loanProductsFeature(loanProduct.getLoanProductsFeature().getName())
+                .applicationMethod(loanProduct.getApplicationMethod().getName())
+                .build();
     }
 }

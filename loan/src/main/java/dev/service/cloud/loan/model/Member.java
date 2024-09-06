@@ -19,26 +19,19 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "email")
     private String email;
-
     @Column(name = "phone_number")
     private String phoneNumber;
-
     @Column(name = "address")
     private String address;
-
     @Column(name = "registered_date")
     @CreationTimestamp
     private LocalDate registeredDate;
-
-    @Column(name = "credit_score")
+    @Column( name = "credit_score")
     private Integer creditScore;
-
     @Column(name = "is_active")
     private boolean isActive;
 

@@ -1,5 +1,6 @@
 package dev.service.cloud.loan.model;
 
+import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,38 +21,39 @@ public class LoanProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "start_date")
     @CreationTimestamp
+    private LocalDate startDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
+    @Column(name = "interest_rate")
     private BigDecimal interestRate;
-
     @Column(name = "max_limit")
     private Integer maxLimit;
-
     @Column(name = "repayment_period")
-    private LocalDate repaymentPeriod;
-
+    private Long repaymentPeriod;
     @Column(name = "required_credit_score")
     private Integer requiredCreditScore;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private LoanProductsType loanProductsType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_products_feature_id")
     private LoanProductsFeature loanProductsFeature;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_method_id")
     private ApplicationMethod applicationMethod;
 
     @OneToMany(mappedBy = "loanProduct")
     @Builder.Default
     private List<MemberLoanProduct> memberLoanProducts = new ArrayList<>();
+
 
 }
