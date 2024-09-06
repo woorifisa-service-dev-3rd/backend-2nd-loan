@@ -5,14 +5,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
+@Entity
 @Table(name = "Member")
-public class Members {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -33,6 +33,6 @@ public class Members {
 
     @ManyToOne
     @JoinColumn(name = "memeberLoanProducts_id")
-    private MemeberLoanProducts memeberLoanProducts;
+    private MemeberLoanProduct memeberLoanProducts;
 
 }

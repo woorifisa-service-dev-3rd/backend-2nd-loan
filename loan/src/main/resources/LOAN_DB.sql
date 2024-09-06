@@ -1,4 +1,3 @@
--- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
@@ -38,8 +37,6 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`loan_products_type`
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
-
-
 -- -----------------------------------------------------
 -- Table `LOAN`.`LoanProductsFeatures`
 -- -----------------------------------------------------
