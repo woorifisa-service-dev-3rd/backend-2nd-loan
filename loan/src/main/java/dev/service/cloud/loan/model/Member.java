@@ -26,7 +26,7 @@ public class Member {
     String address;
     @Column(name = "registered_date")
     LocalDate registeredDate;
-    @Column( name = "credit_score")
+    @Column(name = "credit_score")
     int creditScore;
     @Column(name = "is_active")
     boolean isActive;
