@@ -3,24 +3,26 @@ package dev.service.cloud.loan.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
+@Entity
 @Table(name = "provider")
 public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private Long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "is_active")
-    boolean isActive;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "provider")
-    private List<LoanProducts> loanProducts;
+    @Builder.Default
+    private List<LoanProduct> loanProducts = new ArrayList<>();
 }

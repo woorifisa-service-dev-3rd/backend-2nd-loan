@@ -1,36 +1,41 @@
 package dev.service.cloud.loan.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Entity
 @AllArgsConstructor
-@Table(name = "LoanProducts")
-public class LoanProducts {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
+@Entity
+@Table(name = "loan_products")
+public class LoanProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private Long id;
     @Column(name = "start_date")
-    LocalDate startDate;
+    @CreationTimestamp
+    private LocalDate startDate;
     @Column(name = "end_date")
-    LocalDate endDate;
+    private LocalDate endDate;
     @Column(name = "interest_rate")
-    int interestRate;
+    private BigDecimal interestRate;
     @Column(name = "max_limit")
-    int MaxLimit;
+    private Integer maxLimit;
     @Column(name = "repayment_period")
-    LocalDate repaymentPeriod;
+    private LocalDate repaymentPeriod;
     @Column(name = "required_credit_score")
-    int requiredCreditScore;
+    private Integer requiredCreditScore;
 
     @ManyToOne
-    @JoinColumn(name = "LoanProductsType_id")
+    @JoinColumn(name = "type_id")
     private LoanProductsType loanProductsType;
 
     @ManyToOne
@@ -39,15 +44,14 @@ public class LoanProducts {
 
     @ManyToOne
     @JoinColumn(name = "loan_products_feature_id")
-    private LoanProductsFeatures loanProductsFeatures;
+    private LoanProductsFeature loanProductsFeature;
 
     @ManyToOne
     @JoinColumn(name = "application_method_id")
     private ApplicationMethod applicationMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "memeber_loan_products_id")
-    private MemeberLoanProducts memeberLoanProducts;
-
+    @OneToMany(mappedBy = "loanProduct")
+    @Builder.Default
+    private List<MemberLoanProduct> memberLoanProducts = new ArrayList<>();
 
 }

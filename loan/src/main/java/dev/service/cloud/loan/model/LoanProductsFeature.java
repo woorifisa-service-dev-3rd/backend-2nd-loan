@@ -12,17 +12,16 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
-@Table(name = "application_method")
-public class ApplicationMethod {
+@Table(name = "loan_products_features")
+public class LoanProductsFeature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "applicationMethod")
+    @OneToMany(mappedBy = "loanProductsFeature")
     @Builder.Default
     @ToString.Exclude
     private List<LoanProduct> loanProducts = new ArrayList<>();
-
 }
