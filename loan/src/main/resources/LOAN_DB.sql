@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`Member`
 )
     ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `LOAN`.`LoanProducts`
 -- -----------------------------------------------------
