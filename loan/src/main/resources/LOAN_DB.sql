@@ -18,7 +18,7 @@ USE `LOAN`;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`Member`
 (
-    `id`            BIGINT      NOT NULL,
+    `id`            BIGINT      NOT NULL AUTO_INCREMENT,
     `name`          VARCHAR(45) NOT NULL,
     `email`         VARCHAR(45) NOT NULL,
     `phone_number`  VARCHAR(45) NOT NULL,
@@ -30,13 +30,12 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`Member`
 )
     ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `LOAN`.`LoanProducts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProducts`
 (
-    `id`                    BIGINT NOT NULL,
+    `id`                    BIGINT NOT NULL AUTO_INCREMENT,
     `start_date`            DATE   NOT NULL,
     `end_date`              DATE   NOT NULL,
     `interest_rate`         INT    NOT NULL,
@@ -54,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProducts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`MemberLoanProducts`
 (
+    `id`                 BIGINT NOT NULL AUTO_INCREMENT,
     `Member_id`          BIGINT NOT NULL,
     `LoanProducts_id`    BIGINT NOT NULL,
     `start_date`         DATE   NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`MemberLoanProducts`
     `loan_due_date`      DATE   NOT NULL,
     `repayment_count`    INT    NOT NULL,
     `late_payment_count` INT    NOT NULL,
-    PRIMARY KEY (`Member_id`, `LoanProducts_id`),
+    PRIMARY KEY (`id`),
     INDEX `fk_Member_has_LoanProducts_LoanProducts1_idx` (`LoanProducts_id` ASC) VISIBLE,
     INDEX `fk_Member_has_LoanProducts_Member_idx` (`Member_id` ASC) VISIBLE,
     CONSTRAINT `fk_Member_has_LoanProducts_Member`
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`MemberLoanProducts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProductsFeatures`
 (
-    `id`              BIGINT      NOT NULL,
+    `id`              BIGINT      NOT NULL AUTO_INCREMENT,
     `NAME`            VARCHAR(45) NULL,
     `LoanProducts_id` BIGINT      NOT NULL,
     PRIMARY KEY (`id`),
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProductsFeatures`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProductsType`
 (
-    `id`              BIGINT      NOT NULL,
+    `id`              BIGINT      NOT NULL AUTO_INCREMENT,
     `name`            VARCHAR(45) NOT NULL,
     `LoanProducts_id` BIGINT      NOT NULL,
     PRIMARY KEY (`id`),
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`LoanProductsType`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`ApplicationMethod`
 (
-    `id`              BIGINT      NOT NULL,
+    `id`              BIGINT      NOT NULL AUTO_INCREMENT,
     `NAME`            VARCHAR(45) NOT NULL,
     `LoanProducts_id` BIGINT      NOT NULL,
     PRIMARY KEY (`id`),
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`ApplicationMethod`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LOAN`.`provider`
 (
-    `id`              INT         NOT NULL,
+    `id`              INT         NOT NULL AUTO_INCREMENT,
     `NAME`            VARCHAR(45) NOT NULL,
     `LoanProducts_id` BIGINT      NOT NULL,
     PRIMARY KEY (`id`, `LoanProducts_id`),
