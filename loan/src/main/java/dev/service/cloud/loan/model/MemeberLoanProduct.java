@@ -6,14 +6,14 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
+@Entity
 @Table(name = "MemberLoanProducts")
-public class MemeberLoanProducts {
+public class MemeberLoanProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,9 @@ public class MemeberLoanProducts {
     int latePaymentCount;
 
     @OneToMany(mappedBy = "memeberLoanProducts")
-    private List<Members> members;
+    private List<Member> members;
 
     @OneToMany(mappedBy = "memeberLoanProducts")
-    private List<LoanProducts> loanProducts;
+    private List<LoanProduct> loanProducts;
 
 }
