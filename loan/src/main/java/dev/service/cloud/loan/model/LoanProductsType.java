@@ -5,12 +5,12 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
+@Entity
 @Table(name = "LoanProductsType")
 public class LoanProductsType {
     @Id
@@ -20,5 +20,5 @@ public class LoanProductsType {
     String name;
 
     @OneToMany(mappedBy = "loanProductsType")
-    private List<LoanProducts> loanProducts;
+    private List<LoanProduct> loanProducts;
 }
