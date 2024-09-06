@@ -1,4 +1,4 @@
 package dev.service.cloud.loan.service;
 
-public class dummy {
+public interface LoanService {
 }
