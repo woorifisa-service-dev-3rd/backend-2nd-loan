@@ -1,4 +1,3 @@
-
 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
@@ -59,7 +58,6 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`provider`
     `id`        BIGINT      NOT NULL AUTO_INCREMENT,
     `name`      VARCHAR(45) NOT NULL,
     `is_active` TINYINT     NOT NULL DEFAULT 1,
-
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
@@ -201,13 +199,14 @@ INSERT INTO `LOAN`.`loan_products` (`id`, `start_date`, `end_date`, `interest_ra
                                     `required_credit_score`, `type_id`, `application_method_id`,
                                     `loan_products_feature_id`,
                                     `provider_id`)
-VALUES (1, '2024-01-01', '2024-06-30', 5, 1000000,6, 700, 1, 1, 1, 1),
+VALUES (1, '2024-01-01', '2024-06-30', 5, 1000000, 6, 700, 1, 1, 1, 1),
        (2, '2024-07-01', '2025-01-01', 4, 500000, 12, 650, 2, 2, 2, 2),
        (3, '2024-03-01', '2025-03-01', 6, 2000000, 24, 720, 1, 1, 3, 3),
-       (4, '2024-05-01', '2024-12-31', 7, 1500000, 60, 680, 2, 1, 4, 4);
+       (4, '2024-05-01', '2024-12-31', 7, 1500000, 60, 680, 2, 1, 4, 3);
 
 -- MemberLoanProducts 테이블에 더미 데이터 삽입
-INSERT INTO `LOAN`.`member_loan_products` (`id`, `member_id`, `loan_products_id`, `start_date`, `end_date`, `loan_amount`,
+INSERT INTO `LOAN`.`member_loan_products` (`id`, `member_id`, `loan_products_id`, `start_date`, `end_date`,
+                                           `loan_amount`,
                                            `loan_due_date`, `repayment_count`, `late_payment_count`)
 VALUES (1, 1, 1, '2024-01-01', '2024-06-30', 500000, '2024-06-30', 6, 0),
        (2, 2, 2, '2024-07-01', '2025-01-01', 300000, '2025-01-01', 12, 1),
