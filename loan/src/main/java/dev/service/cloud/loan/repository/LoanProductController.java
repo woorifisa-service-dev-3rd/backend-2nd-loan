@@ -1,4 +1,7 @@
 package dev.service.cloud.loan.repository;
 
-public class LoanProductController {
+import dev.service.cloud.loan.model.LoanProduct;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LoanProductController extends JpaRepository<LoanProduct, Long> {
 }
