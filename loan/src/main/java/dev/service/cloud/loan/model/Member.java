@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -11,28 +13,29 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @Entity
-@Table(name = "Member")
+@Table(name = "member")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private Long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "email")
-    String email;
+    private String email;
     @Column(name = "phone_number")
-    String phoneNumber;
+    private String phoneNumber;
     @Column(name = "address")
-    String address;
+    private String address;
     @Column(name = "registered_date")
-    LocalDate registeredDate;
-    @Column(name = "credit_score")
-    int creditScore;
-    @Column(name = "is_active")
-    boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "memeberLoanProducts_id")
-    private MemeberLoanProduct memeberLoanProducts;
+    private LocalDate registeredDate;
+    @Column(name = "credit_score")
+    private Integer creditScore;
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<MemberLoanProduct> memberLoanProducts = new ArrayList<>();
 
 }

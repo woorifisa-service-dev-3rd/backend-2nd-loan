@@ -1,5 +1,14 @@
 package dev.service.cloud.loan.service;
 
+
+import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
+
+import java.util.List;
+
+
 public interface RecommendService {
-    public String recommendLoan(String memberId);
+
+    List<LoanProductResponseDto> recommendByPoint(int point) throws Exception;
+
+    List<LoanProductResponseDto> findAll();
 }
