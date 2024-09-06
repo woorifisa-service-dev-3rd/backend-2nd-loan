@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`loan_products`
 (
     `id`                       BIGINT  NOT NULL AUTO_INCREMENT,
     `start_date`               DATE    NOT NULL,
-    `end_date`                 DATE    NOT NULL,
+    `end_date`                 DATE    NOT NULL DEFAULT '9999-12-31',
     `interest_rate`            DECIMAL NOT NULL,
     `max_limit`                BIGINT  NOT NULL,
     `repayment_period`         INT     NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `LOAN`.`member_loan_products`
     `member_id`          BIGINT NOT NULL,
     `loan_products_id`   BIGINT NOT NULL,
     `start_date`         DATE   NOT NULL,
-    `end_date`           DATE   NOT NULL,
+    `end_date`           DATE   NOT NULL DEFAULT '9999-12-31',
     `loan_amount`        BIGINT NOT NULL,
     `loan_due_date`      DATE   NOT NULL,
     `repayment_count`    INT    NOT NULL,
@@ -195,33 +195,24 @@ VALUES (1, '농협 은행 ', 1),
        (3, '기업 은행', 1);
 
 -- LoanProducts 테이블에 더미 데이터 삽입
-INSERT INTO `LOAN`.`loan_products` (`id`, `start_date`, `end_date`, `interest_rate`, `max_limit`, `repayment_period`,
-<<<<<<< Updated upstream
+INSERT INTO `LOAN`.`loan_products` (`id`, `start_date`, `interest_rate`, `max_limit`, `repayment_period`,
                                     `required_credit_score`, `type_id`, `application_method_id`,
                                     `loan_products_feature_id`,
                                     `provider_id`)
-VALUES (1, '2024-01-01', '2024-06-30', 5, 1000000, 6, 700, 1, 1, 1, 1),
-=======
-                                   `required_credit_score`, `type_id`, `application_method_id`,
-                                   `loan_products_feature_id`,
-                                   `provider_id`)
-VALUES (1, '2024-01-01', '2024-06-30', 5, 1000000,6, 700, 1, 1, 1, 1),
->>>>>>> Stashed changes
-       (2, '2024-07-01', '2025-01-01', 4, 500000, 12, 650, 2, 2, 2, 2),
-       (3, '2024-03-01', '2025-03-01', 6, 2000000, 24, 720, 1, 1, 3, 3),
-       (4, '2024-05-01', '2024-12-31', 7, 1500000, 60, 680, 2, 1, 4, 3);
+VALUES (1, '2024-01-01', 5, 1000000, 6, 700, 1, 1, 1, 1),
+       (2, '2024-07-01', 4, 500000, 12, 650, 2, 2, 2, 2),
+       (3, '2024-03-01', 6, 2000000, 24, 720, 1, 1, 3, 3),
+       (4, '2024-05-01', 7, 1500000, 60, 680, 2, 1, 4, 3);
+
 
 -- MemberLoanProducts 테이블에 더미 데이터 삽입
-<<<<<<< Updated upstream
-INSERT INTO `LOAN`.`member_loan_products` (`id`, `member_id`, `loan_products_id`, `start_date`, `end_date`,
+INSERT INTO `LOAN`.`member_loan_products` (`id`, `member_id`, `loan_products_id`, `start_date`,
                                            `loan_amount`,
                                            `loan_due_date`, `repayment_count`, `late_payment_count`)
-=======
-INSERT INTO `LOAN`.`member_loan_products` (`id`, `member_id`, `loan_products_id`, `start_date`, `end_date`, `loan_amount`,
-                                         `loan_due_date`, `repayment_count`, `late_payment_count`)
->>>>>>> Stashed changes
-VALUES (1, 1, 1, '2024-01-01', '2024-06-30', 500000, '2024-06-30', 6, 0),
-       (2, 2, 2, '2024-07-01', '2025-01-01', 300000, '2025-01-01', 12, 1),
-       (3, 3, 3, '2024-03-01', '2025-03-01', 1000000, '2025-03-01', 12, 2),
-       (4, 4, 4, '2024-05-01', '2024-12-31', 700000, '2024-12-31', 8, 0),
-       (5, 5, 1, '2024-02-01', '2024-07-01', 600000, '2024-07-01', 6, 1);
+
+
+VALUES (1, 1, 1, '2024-01-01', 500000, '2024-06-30', 6, 0),
+       (2, 2, 2, '2024-07-01', 300000, '2025-01-01', 12, 1),
+       (3, 3, 3, '2024-03-01', 1000000, '2025-03-01', 12, 2),
+       (4, 4, 4, '2024-05-01', 700000, '2024-12-31', 8, 0),
+       (5, 5, 1, '2024-02-01', 600000, '2024-07-01', 6, 1);

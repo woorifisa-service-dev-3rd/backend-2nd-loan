@@ -34,6 +34,7 @@ public class MemberLoanProduct {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_products_id")
     private LoanProduct loanProduct;

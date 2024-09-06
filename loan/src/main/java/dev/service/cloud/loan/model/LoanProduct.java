@@ -20,17 +20,17 @@ public class LoanProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "start_date")
     @CreationTimestamp
-    private LocalDate startDate;
-    @Column(name = "end_date")
-    private LocalDate endDate;
-    @Column(name = "interest_rate")
     private BigDecimal interestRate;
+
     @Column(name = "max_limit")
     private Integer maxLimit;
+
     @Column(name = "repayment_period")
     private LocalDate repaymentPeriod;
+
     @Column(name = "required_credit_score")
     private Integer requiredCreditScore;
 
