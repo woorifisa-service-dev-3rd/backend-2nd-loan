@@ -168,7 +168,7 @@ SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 -- Member 테이블에 더미 데이터 삽입
 INSERT INTO `LOAN`.`Member` (`id`, `name`, `email`, `phone_number`, `address`, `registered_date`, `credit_score`,
                              `is_active`)
-VALUES (1, '김민수', 'minsu.kim@example.com', '010-1234-5678', '서울특별시 강남구 삼성로 123', '2023-01-15', 750, 1),
+VALUES (1, '김수민', 'minsu.kim@example.com', '010-1234-5678', '서울특별시 강남구 삼성로 123', '2023-01-15', 750, 1),
        (2, '이영희', 'younghee.lee@example.com', '010-2345-6789', '부산광역시 해운대구 해운대해변로 456', '2023-02-10', 680, 1),
        (3, '박지훈', 'jihoon.park@example.com', '010-3456-7890', '대구광역시 수성구 범어동 789', '2023-03-05', 720, 0),
        (4, '최예린', 'yerin.choi@example.com', '010-4567-8901', '인천광역시 연수구 송도동 123', '2023-04-20', 800, 1),
