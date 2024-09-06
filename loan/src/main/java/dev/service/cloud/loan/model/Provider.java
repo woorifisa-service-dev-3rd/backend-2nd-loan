@@ -16,11 +16,11 @@ import java.util.List;
 public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "provider")
     @Builder.Default

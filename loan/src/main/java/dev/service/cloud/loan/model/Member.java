@@ -17,7 +17,7 @@ import java.util.List;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "email")
@@ -29,7 +29,7 @@ public class Member {
     @Column(name = "registered_date")
     private LocalDate registeredDate;
     @Column( name = "credit_score")
-    private int creditScore;
+    private Integer creditScore;
     @Column(name = "is_active")
     private boolean isActive;
 

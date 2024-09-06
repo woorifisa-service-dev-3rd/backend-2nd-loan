@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +19,20 @@ import java.util.List;
 public class LoanProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "start_date")
     @CreationTimestamp
     private LocalDate startDate;
     @Column(name = "end_date")
     private LocalDate endDate;
     @Column(name = "interest_rate")
-    private int interestRate;
+    private BigDecimal interestRate;
     @Column(name = "max_limit")
-    private int maxLimit;
+    private Integer maxLimit;
     @Column(name = "repayment_period")
     private LocalDate repaymentPeriod;
     @Column(name = "required_credit_score")
-    private int requiredCreditScore;
+    private Integer requiredCreditScore;
 
     @ManyToOne
     @JoinColumn(name = "type_id")

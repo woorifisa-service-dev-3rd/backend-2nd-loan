@@ -17,19 +17,19 @@ public class MemberLoanProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "start_date")
     private LocalDate startDate;
     @Column(name = "end_date")
     private LocalDate endDate;
     @Column(name = "loan_amount")
-    private int loanAmount;
+    private Long loanAmount;
     @Column(name = "loan_due_date")
     private LocalDate loanDueDate;
     @Column(name = "repayment_count")
-    private int repaymentCount;
+    private Integer repaymentCount;
     @Column(name = "late_payment_count")
-    private int latePaymentCount;
+    private Integer latePaymentCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
