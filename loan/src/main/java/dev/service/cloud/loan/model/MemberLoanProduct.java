@@ -12,29 +12,30 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
-@Table(name = "MemberLoanProducts")
-public class MemeberLoanProduct {
+@Table(name = "member_loan_products")
+public class MemberLoanProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     @Column(name = "start_date")
-    LocalDate startDate;
+    private LocalDate startDate;
     @Column(name = "end_date")
-    LocalDate endDate;
+    private LocalDate endDate;
     @Column(name = "loan_amount")
-    int loanAmount;
+    private int loanAmount;
     @Column(name = "loan_due_date")
-    LocalDate loanDueDate;
+    private LocalDate loanDueDate;
     @Column(name = "repayment_count")
-    int repaymentCount;
+    private int repaymentCount;
     @Column(name = "late_payment_count")
-    int latePaymentCount;
+    private int latePaymentCount;
 
-    @OneToMany(mappedBy = "memeberLoanProducts")
-    private List<Member> members;
-
-    @OneToMany(mappedBy = "memeberLoanProducts")
-    private List<LoanProduct> loanProducts;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loan_products_id")
+    private LoanProduct loanProduct;
 
 }

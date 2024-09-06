@@ -3,6 +3,7 @@ package dev.service.cloud.loan.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -11,15 +12,17 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
-@Table(name = "ApplicationMethod")
+@Table(name = "application_method")
 public class ApplicationMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     @Column(name = "name")
-    String name;
+    private String name;
 
     @OneToMany(mappedBy = "applicationMethod")
-    private List<LoanProduct> loanProducts;
+    @Builder.Default
+    @ToString.Exclude
+    private List<LoanProduct> loanProducts = new ArrayList<>();
 
 }
