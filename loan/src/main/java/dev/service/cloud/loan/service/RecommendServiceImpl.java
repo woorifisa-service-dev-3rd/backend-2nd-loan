@@ -50,7 +50,7 @@ public class RecommendServiceImpl implements RecommendService {
 
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
-        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException("신용점수 데이터가 없습니다.")).getCreditScore();
+        int memberCreditScore = memberRepository.findCreditScoreById(memberId);
         if (loanHistory.isEmpty()) {
             // 대출 이력이 없는 경우
             log.info("멤버 ID {}는 대출 이력이 없습니다. 초기 사용자에게 맞는 대출 상품을 추천합니다.", memberId);
