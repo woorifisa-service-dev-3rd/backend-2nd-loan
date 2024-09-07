@@ -48,7 +48,7 @@ public class RecommendServiceImpl implements RecommendService {
 
     }
 
-    public List<LoanProductResponseDto> recommendLoanProducts(Long memberId) {
+    public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
         int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException("신용점수 데이터가 없습니다.")).getCreditScore();
         if (loanHistory.isEmpty()) {
@@ -63,66 +63,137 @@ public class RecommendServiceImpl implements RecommendService {
         }
     }
 
+    /**
+     * 대출 이력이 없는 사용자에게 신용 점수에 맞는 대출 상품을 추천
+     *
+     * @param memberCreditScore 회원의 신용 점수
+     * @return 사용자 신용점수 > 상품 신용점수 조건의 대출 상품 목록
+     */
     private List<LoanProductResponseDto> recommendForNewUser(Integer memberCreditScore) {
-        // 기본적인 추천 로직: 신용 점수에 맞는 대출 상품 추천
-        List<LoanProduct> recommendedLoans = loanProductRepository.findByRequiredCreditScoreLessThanEqual(memberCreditScore);  // 예시
+        // 신용 점수 이하의 대출 상품을 조회
+        List<LoanProduct> recommendedLoans = loanProductRepository.findByRequiredCreditScoreLessThanEqual(memberCreditScore);
+
+        // 조회된 대출 상품을 DTO로 변환해 반환
         return recommendedLoans.stream()
                 .map(LoanProductResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 대출 이력과 신용 점수를 기반으로 맞춤형 대출 상품을 추천
+     *
+     * @param loanHistory       사용자의 대출 이력
+     * @param memberCreditScore 사용자의 신용 점수
+     * @return 맞춤형 추천 대출 상품 목록
+     */
     private List<LoanProductResponseDto> recommendBasedOnLoanHistory(List<MemberLoanProduct> loanHistory, int memberCreditScore) {
-        // 현재 대출 중인 상품이 있는지 확인
-        boolean hasActiveLoans = loanHistory.stream()
-                .anyMatch(loan -> loan.getEndDate() == null || loan.getEndDate().isAfter(LocalDate.now()));
+        // 대출 이력에서 현재 활성화된 대출이 있는지 확인 및 할당
+        boolean hasActiveLoans = hasActiveLoans(loanHistory);
 
-        // 평균 상환 기간과 연체 횟수를 구함
-        double averageRepaymentPeriod = loanHistory.stream()
-                .mapToInt(MemberLoanProduct::getRepaymentCount)
-                .average()
-                .orElse(0);
-        double averageLatePaymentCount = loanHistory.stream()
-                .mapToInt(MemberLoanProduct::getLatePaymentCount)
-                .average()
-                .orElse(0);
+        // 대출 이력에서 평균 상환 기간을 계산 및 할당
+        double averageRepaymentPeriod = calculateAverageRepaymentPeriod(loanHistory);
 
-        // 신용 점수로 대출 가능한 상품 조회
+        // 대출 이력에서 평균 연체 횟수를 계산 및 할당
+        double averageLatePaymentCount = calculateAverageLatePaymentCount(loanHistory);
+
+        // 신용 점수에 맞는 대출 상품을 조회
         List<LoanProduct> recommendedLoans = loanProductRepository.findByRequiredCreditScoreLessThanEqual(memberCreditScore);
 
-        // 대출 중인 상품이 있는 경우 연체 횟수에 따라 필터링
+        // 연체 횟수에 따라 대출 상품을 필터링
         recommendedLoans = filterByLatePaymentCount(recommendedLoans, averageLatePaymentCount);
 
-        // 대출 중인 상품이 없는 경우, 약간 유리한 상품 추천
+        // 대출 중인 상품이 없는 경우, 금리가 낮은 상품으로 추가 필터링
         if (!hasActiveLoans) {
-            BigDecimal maxInterestRate = new BigDecimal("5.50");
-            recommendedLoans = recommendedLoans.stream()
-                    .filter(loan -> loan.getInterestRate().compareTo(maxInterestRate) <= 0)
-                    .collect(Collectors.toList());
+            recommendedLoans = filterByInterestRate(recommendedLoans, new BigDecimal("5.50"));
         }
 
-        // 평균 상환 기간을 고려하여 우선순위 부여
+        // 상환 기간을 기준 대출 상품의 우선순위로 정렬
         List<LoanProduct> prioritizedLoans = prioritizeByRepaymentPeriod(recommendedLoans, averageRepaymentPeriod);
 
-        // DTO로 변환하여 반환
+        // 최종적으로 필터링 및 정렬된 대출 상품을 DTO로 변환하여 리턴
         return prioritizedLoans.stream()
                 .map(LoanProductResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 대출 이력에서 현재 활성화된 대출이 존재 여부를 확인
+     *
+     * @param loanHistory 대출 이력 목록
+     * @return 유효한 대출 이력 있으면 : true, 없으면 false
+     */
+    private boolean hasActiveLoans(List<MemberLoanProduct> loanHistory) {
+        return loanHistory.stream()
+                .anyMatch(loan -> loan.getEndDate() == null || loan.getEndDate().isAfter(LocalDate.now()));
+    }
+
+    /**
+     * 대출 이력에서 평균 상환 기간을 계산
+     *
+     * @param loanHistory 대출 이력 목록
+     * @return 평균 상환 기간
+     */
+    private double calculateAverageRepaymentPeriod(List<MemberLoanProduct> loanHistory) {
+        return loanHistory.stream()
+                .mapToInt(MemberLoanProduct::getRepaymentCount)
+                .average()
+                .orElse(0);
+    }
+
+    /**
+     * 대출 이력에서 평균 연체 횟수를 계산
+     *
+     * @param loanHistory 대출 이력 목록
+     * @return 평균 연체 횟수
+     */
+    private double calculateAverageLatePaymentCount(List<MemberLoanProduct> loanHistory) {
+        return loanHistory.stream()
+                .mapToInt(MemberLoanProduct::getLatePaymentCount)
+                .average()
+                .orElse(0);
+    }
+
+    /**
+     * 연체 횟수에 따른 대출 상품을 필터링
+     *
+     * @param loans                   대출 상품 목록
+     * @param averageLatePaymentCount 평균 연체 횟수
+     * @return 필터링된 대출 상품 목록
+     */
     private List<LoanProduct> filterByLatePaymentCount(List<LoanProduct> loans, double averageLatePaymentCount) {
         BigDecimal minInterestRate;
         if (averageLatePaymentCount > 5) {
-            minInterestRate = new BigDecimal("7.00");
+            minInterestRate = new BigDecimal("9.00");
         } else if (averageLatePaymentCount > 2) {
-            minInterestRate = new BigDecimal("6.00");
+            minInterestRate = new BigDecimal("7.00");
         } else {
-            minInterestRate = new BigDecimal("5.50");
+            minInterestRate = new BigDecimal("5.90");
         }
         return loans.stream()
                 .filter(loan -> loan.getInterestRate().compareTo(minInterestRate) > 0)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 금리 기준 대출 상품을 필터링
+     *
+     * @param loans           대출 상품 목록
+     * @param maxInterestRate 최대 금리
+     * @return 필터링된 대출 상품 목록
+     */
+    private List<LoanProduct> filterByInterestRate(List<LoanProduct> loans, BigDecimal maxInterestRate) {
+        return loans.stream()
+                .filter(loan -> loan.getInterestRate().compareTo(maxInterestRate) <= 0)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 상환기간 기준 대출 상품의 우선순위로 정렬
+     *
+     * @param loans                  대출 상품 목록
+     * @param averageRepaymentPeriod 평균 상환 기간
+     * @return 상환 기간을 기준으로 정렬된 대출 상품 목록
+     */
     private List<LoanProduct> prioritizeByRepaymentPeriod(List<LoanProduct> loans, double averageRepaymentPeriod) {
         return loans.stream()
                 .sorted((loan1, loan2) -> {
@@ -132,5 +203,4 @@ public class RecommendServiceImpl implements RecommendService {
                 })
                 .collect(Collectors.toList());
     }
-
 }

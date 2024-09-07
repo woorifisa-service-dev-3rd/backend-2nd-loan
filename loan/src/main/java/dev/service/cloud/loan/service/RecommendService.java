@@ -12,5 +12,5 @@ public interface RecommendService {
 
     List<LoanProductResponseDto> findAll();
 
-    List<LoanProductResponseDto> recommendLoanProducts(Long memberId);
+    List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId);
 }

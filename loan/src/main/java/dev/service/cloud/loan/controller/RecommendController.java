@@ -57,8 +57,8 @@ public class RecommendController {
         }
     }
     @GetMapping("/recommend/{memberId}")
-    public ResponseEntity<List<LoanProductResponseDto>> getLoanRecommendations(@PathVariable Long memberId) {
-        List<LoanProductResponseDto> recommendations = recommendService.recommendLoanProducts(memberId);
+    public ResponseEntity<List<LoanProductResponseDto>> getRecommendforMember(@PathVariable Long memberId) {
+        List<LoanProductResponseDto> recommendations = recommendService.recommendLoanProductsforMember(memberId);
         return ResponseEntity.ok(recommendations);
     }
 }
