@@ -1,7 +1,8 @@
 package dev.service.cloud.loan.controller;
 
-import dev.service.cloud.loan.customexception.NoRecommendedProductsException;
+
 import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
+import dev.service.cloud.loan.exception.NoRecommendedProductsException;
 import dev.service.cloud.loan.service.RecommendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

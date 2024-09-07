@@ -1,8 +1,9 @@
 package dev.service.cloud.loan.service;
 
 
-import dev.service.cloud.loan.customexception.NoRecommendedProductsException;
 import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
+import dev.service.cloud.loan.exception.ErrorCode;
+import dev.service.cloud.loan.exception.NoRecommendedProductsException;
 import dev.service.cloud.loan.model.LoanProduct;
 import dev.service.cloud.loan.model.MemberLoanProduct;
 import dev.service.cloud.loan.repository.LoanProductRepository;
@@ -32,7 +33,7 @@ public class RecommendServiceImpl implements RecommendService {
         List<LoanProductResponseDto> recommendedProductsDto = new ArrayList<>();
 
         if (recommendedProducts.isEmpty()) {
-            throw new NoRecommendedProductsException("추천 상품이 없습니다.");
+            new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, "추천 상품이 없습니다.");
         } else {
             recommendedProductsDto = recommendedProducts.stream()
                     .map(LoanProductResponseDto::fromEntity)
@@ -44,7 +45,7 @@ public class RecommendServiceImpl implements RecommendService {
 
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
-        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException("해당 member없음")).getCreditScore();
+        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, " " + memberId + " 없음")).getCreditScore();
         if (loanHistory.isEmpty()) {
             // 대출 이력이 없는 경우
             log.info("멤버 ID {}는 대출 이력이 없습니다. 초기 사용자에게 맞는 대출 상품을 추천합니다.", memberId);
