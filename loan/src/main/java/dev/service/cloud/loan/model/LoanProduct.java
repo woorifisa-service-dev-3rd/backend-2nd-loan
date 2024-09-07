@@ -30,23 +30,23 @@ public class LoanProduct {
     @Column(name = "max_limit")
     private Integer maxLimit;
     @Column(name = "repayment_period")
-    private LocalDate repaymentPeriod;
+    private Long repaymentPeriod;
     @Column(name = "required_credit_score")
     private Integer requiredCreditScore;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private LoanProductsType loanProductsType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_products_feature_id")
     private LoanProductsFeature loanProductsFeature;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_method_id")
     private ApplicationMethod applicationMethod;
 
