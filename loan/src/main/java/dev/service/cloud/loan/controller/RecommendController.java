@@ -5,7 +5,6 @@ import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 import dev.service.cloud.loan.service.RecommendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,6 @@ import java.util.List;
 @Slf4j
 public class RecommendController {
     private final RecommendService recommendService;
-
-    @GetMapping()
-//    @ResponseBody
-    public List<LoanProductResponseDto> getAllLoan() {
-        return recommendService.findAll();
-    }
 
 //    @GetMapping("/recommend/{point}")
 //    @ResponseBody
@@ -47,18 +40,32 @@ public class RecommendController {
         try {
             List<LoanProductResponseDto> recommendedProducts = recommendService.recommendByPoint(point);
             model.addAttribute("loanProducts", recommendedProducts);
-            return "loan-products-view";  // Thymeleaf 템플릿 파일명
         } catch (NoRecommendedProductsException e) {
             model.addAttribute("message", "추천할 대출 상품이 없습니다.");
-            return "loan-products-view";
         } catch (Exception e) {
             model.addAttribute("message", "서버 오류가 발생했습니다.");
+        } finally {
             return "loan-products-view";
         }
     }
-    @GetMapping("/recommend/{memberId}")
-    public ResponseEntity<List<LoanProductResponseDto>> getRecommendforMember(@PathVariable Long memberId) {
-        List<LoanProductResponseDto> recommendations = recommendService.recommendLoanProductsforMember(memberId);
-        return ResponseEntity.ok(recommendations);
+
+    //    @GetMapping("/recommend/m/{memberId}")
+//    @ResponseBody
+//    public ResponseEntity<List<LoanProductResponseDto>> getRecommendforMember(@PathVariable Long memberId) {
+//        List<LoanProductResponseDto> recommendations = recommendService.recommendLoanProductsforMember(memberId);
+//        return ResponseEntity.ok(recommendations);
+//    }
+    @GetMapping("/recommend/m/{memberId}")
+    public String getRecommendforMember(@PathVariable Long memberId, Model model) {
+        try {
+            List<LoanProductResponseDto> recommendations = recommendService.recommendLoanProductsforMember(memberId);
+            model.addAttribute("loanProducts", recommendations);
+        } catch (NoRecommendedProductsException e) {
+            model.addAttribute("message", "추천할 대출 상품이 없습니다.");
+        } catch (Exception e) {
+            model.addAttribute("message", "서버 오류가 발생했습니다.");
+        } finally {
+            return "loan-products-view";
+        }
     }
 }

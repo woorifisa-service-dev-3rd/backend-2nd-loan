@@ -10,7 +10,5 @@ public interface RecommendService {
 
     List<LoanProductResponseDto> recommendByPoint(int point) throws Exception;
 
-    List<LoanProductResponseDto> findAll();
-
     List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId);
 }

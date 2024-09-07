@@ -42,15 +42,9 @@ public class RecommendServiceImpl implements RecommendService {
         return recommendedProductsDto;
     }
 
-    @Override
-    public List<LoanProductResponseDto> findAll() {
-        return loanProductRepository.findAll().stream().map(LoanProductResponseDto::fromEntity).collect(Collectors.toList());
-
-    }
-
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
-        int memberCreditScore = memberRepository.findCreditScoreById(memberId);
+        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException("해당 member없음")).getCreditScore();
         if (loanHistory.isEmpty()) {
             // 대출 이력이 없는 경우
             log.info("멤버 ID {}는 대출 이력이 없습니다. 초기 사용자에게 맞는 대출 상품을 추천합니다.", memberId);
