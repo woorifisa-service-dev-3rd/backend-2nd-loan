@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,12 +50,24 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public void checkLoanCondition(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount) {
-        if(memberCreditScore < requiredCreditScore) {
+        if (memberCreditScore < requiredCreditScore) {
             throw new LoanException(ErrorCode.LOW_CREDIT_SCORE, "신용점수 : " + memberCreditScore + " 필요한 신용점수 : " + requiredCreditScore);
         }
 
-        if(loanAmount > loanMaxLimit) {
+        if (loanAmount > loanMaxLimit) {
             throw new LoanException(ErrorCode.OVER_MAX_LIMIT_LOAN_AMOUNT, "신청 금액 : " + loanAmount + " 최대 대출 한도 : " + loanMaxLimit);
         }
+    }
+
+    @Override
+    public List<LoanResponseDto> getLoanListByMemberId(Long memberId) {
+        List<LoanResponseDto> servingLoanList
+                = memberLoanProductRepository.findByMemberId(memberId).stream()
+                .map(LoanResponseDto::toDto)
+                .collect(Collectors.toList());
+        if (servingLoanList.isEmpty()) {
+            throw new LoanException(ErrorCode.MEMBER_LOAN_PRODUCT_NOT_FOUND, "회원 아이디 : " + memberId);
+        }
+        return servingLoanList;
     }
 }
