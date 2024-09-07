@@ -20,5 +20,10 @@ public interface LoanProductRepository extends JpaRepository<LoanProduct, Long> 
             nativeQuery = true)
     List<LoanProduct> findEligibleLoanProducts(@Param("creditScore") int creditScore);
 
-
+    /**
+     * 회원 대출 이력이 없는 경우 신용점수 기준으로 상품을 추천
+     * @param memberCreditSocre
+     * @return
+     */
+    List<LoanProduct> findByRequiredCreditScoreLessThanEqual(Integer memberCreditSocre);
 }

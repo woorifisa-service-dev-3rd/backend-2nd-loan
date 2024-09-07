@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>추천 대출 상품</title>
+</head>
+<body>
+<h1>추천 대출 상품</h1>
+<div th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div th:if="${!loanProducts.isEmpty()}">
+    <table>
+        <thead>
+        <tr>
+            <th>상품 ID</th>
+            <th>이자율</th>
+            <th>최대 한도</th>
+            <th>대출 기간</th>
+            <th>필요 신용 점수</th>
+            <th>상품 유형</th>
+            <th>제공자</th>
+            <th>상품 특성</th>
+            <th>신청 방법</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${loanProducts}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.interestRate}"></td>
+            <td th:text="${product.maxLimit}"></td>
+            <td th:text="${product.repaymentPeriod}"></td>
+            <td th:text="${product.requiredCreditScore}"></td>
+            <td th:text="${product.loanProductsTypeName}"></td>
+            <td th:text="${product.provider}"></td>
+            <td th:text="${product.loanProductsFeature}"></td>
+            <td th:text="${product.applicationMethod}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
