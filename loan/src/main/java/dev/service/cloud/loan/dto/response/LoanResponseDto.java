@@ -22,6 +22,9 @@ public class LoanResponseDto {
     private Long loanAmount;
     private LocalDate loanDueDate;
 
+    private String providerName;
+    private int repaymentCount;
+
     public static LoanResponseDto toDto(MemberLoanProduct memberLoanProduct) {
         Member member = memberLoanProduct.getMember();
         System.out.println("member = " + member);
@@ -45,4 +48,22 @@ public class LoanResponseDto {
                 .collect(Collectors.toList());
     }
 
+    public static LoanResponseDto toDto4membersLoanlist(MemberLoanProduct memberLoanProduct) {
+        Member member = memberLoanProduct.getMember();
+        System.out.println("member = " + member);
+        LoanProduct loanProduct = memberLoanProduct.getLoanProduct();
+        System.out.println("loanProduct = " + loanProduct);
+        LoanProductsType loanProductsType = loanProduct.getLoanProductsType();
+        System.out.println("loanProductsType = " + loanProductsType);
+
+        return LoanResponseDto.builder()
+                .memberName(member.getName())
+                .loanProductTypeName(loanProductsType.getName())
+                .startDate(memberLoanProduct.getStartDate())
+                .loanAmount(memberLoanProduct.getLoanAmount())
+                .loanDueDate(memberLoanProduct.getLoanDueDate())
+                .repaymentCount(memberLoanProduct.getRepaymentCount())
+                .providerName(loanProduct.getProvider().getName())
+                .build();
+    }
 }
