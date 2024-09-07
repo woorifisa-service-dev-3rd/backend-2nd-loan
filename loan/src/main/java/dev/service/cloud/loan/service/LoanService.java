@@ -2,7 +2,6 @@ package dev.service.cloud.loan.service;
 
 import dev.service.cloud.loan.dto.request.LoanRequestDto;
 import dev.service.cloud.loan.dto.response.LoanResponseDto;
-import dev.service.cloud.loan.model.MemberLoanProduct;
 
 import java.util.List;
 

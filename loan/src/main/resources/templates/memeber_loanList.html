@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원 대출 목록</title>
+</head>
+<body>
+<h1>회원 대출 목록</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>대출 받은 회원</th>
+        <th>대출 종류</th>
+        <th>대출 시작일</th>
+        <th>대출 받은 금액</th>
+        <th>대출 종료 기한</th>
+        <th>연체 횟수</th>
+        <th>제공 금융사</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="loan : ${loanList}">
+        <td th:text="${loan.memberName}"></td>
+        <td th:text="${loan.loanProductTypeName}"></td>
+        <td th:text="${loan.startDate}"></td>
+        <td th:text="${loan.loanAmount}"></td>
+        <td th:text="${loan.loanDueDate}"></td>
+        <td th:text="${loan.repaymentCount}"></td>
+        <td th:text="${loan.providerName}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

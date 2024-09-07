@@ -59,11 +59,17 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    /**
+     * findByMemberId : JpaRepository 에서 제공하는 쿼리 메소드를 사용
+     * 해당 회원이 포함된 모든 대출 이력 조회
+     * @param memberId
+     * @return List<LoanResponseDto>
+     */
     @Override
     public List<LoanResponseDto> getLoanListByMemberId(Long memberId) {
         List<LoanResponseDto> servingLoanList
                 = memberLoanProductRepository.findByMemberId(memberId).stream()
-                .map(LoanResponseDto::toDto)
+                .map(LoanResponseDto::toDto4membersLoanlist)
                 .collect(Collectors.toList());
         if (servingLoanList.isEmpty()) {
             throw new LoanException(ErrorCode.MEMBER_LOAN_PRODUCT_NOT_FOUND, "회원 아이디 : " + memberId);
