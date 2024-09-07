@@ -38,18 +38,17 @@ public class LoanServiceImpl implements LoanService {
         long loanAmount = loanRequestDto.getLoanAmount();
         LocalDate loanDueDate = LocalDate.now().plusMonths(loanProduct.getRepaymentPeriod());
 
-        if(isAvailToLoan(member.getCreditScore(), loanProduct.getRequiredCreditScore(), loanProduct.getMaxLimit(), loanAmount)) {
-            MemberLoanProduct memberLoanProduct = MemberLoanProduct.createMemberLoanProduct(member, loanProduct, loanAmount, loanDueDate);
+        checkLoanCondition(member.getCreditScore(), loanProduct.getRequiredCreditScore(), loanProduct.getMaxLimit(), loanAmount);
 
-            memberLoanProductRepository.save(memberLoanProduct);
+        MemberLoanProduct memberLoanProduct = MemberLoanProduct.createMemberLoanProduct(member, loanProduct, loanAmount, loanDueDate);
 
-            return LoanResponseDto.toDto(memberLoanProduct);
-        }
+        memberLoanProductRepository.save(memberLoanProduct);
 
-        throw new LoanException(ErrorCode.LOAN_CONDITION_NOT_MATCH, "");
+        return LoanResponseDto.toDto(memberLoanProduct);
     }
 
-    private boolean isAvailToLoan(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount) {
+    @Override
+    public void checkLoanCondition(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount) {
         if(memberCreditScore < requiredCreditScore) {
             throw new LoanException(ErrorCode.LOW_CREDIT_SCORE, "신용점수 : " + memberCreditScore + " 필요한 신용점수 : " + requiredCreditScore);
         }
@@ -57,7 +56,5 @@ public class LoanServiceImpl implements LoanService {
         if(loanAmount > loanMaxLimit) {
             throw new LoanException(ErrorCode.OVER_MAX_LIMIT_LOAN_AMOUNT, "신청 금액 : " + loanAmount + " 최대 대출 한도 : " + loanMaxLimit);
         }
-
-        return true;
     }
 }
