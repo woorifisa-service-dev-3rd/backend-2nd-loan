@@ -7,7 +7,6 @@ import dev.service.cloud.loan.model.Provider;
 import java.util.List;
 
 public interface LoanService {
-
+    // 대출상품 리스트조회
     List<LoanProductResponseDto> loansearching();
-    void test1();
 }

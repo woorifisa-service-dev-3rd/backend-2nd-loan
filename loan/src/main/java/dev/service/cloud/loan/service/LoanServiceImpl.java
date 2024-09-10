@@ -24,11 +24,4 @@ public class LoanServiceImpl implements LoanService{
         return loanProductResponseDtos;
     }
 
-    public void test1(){
-        List<LoanProduct> loanProducts = loanProductRepository.findAll();
-        List<BigDecimal> test= loanProducts.stream().map(loanProduct -> loanProduct.getInterestRate()).collect(Collectors.toList());
-        System.out.println(test);
-        return;
-    }
-
 }
