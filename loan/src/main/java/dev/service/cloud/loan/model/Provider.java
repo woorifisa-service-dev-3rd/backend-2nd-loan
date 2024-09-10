@@ -3,6 +3,7 @@ package dev.service.cloud.loan.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -15,12 +16,13 @@ import java.util.List;
 public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private Long id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "is_active")
-    boolean isActive;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "provider")
-    private List<LoanProduct> loanProducts;
+    @Builder.Default
+    private List<LoanProduct> loanProducts = new ArrayList<>();
 }

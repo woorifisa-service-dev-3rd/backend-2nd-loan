@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>loanList</h2>
+
+<table id="owners" class="table table-striped">
+  <thead>
+  <tr>
+    <th style="width: 150px;">제공사</th>
+    <th style="width: 150px;">대출유형</th>
+    <th style="width: 150px;">최저 금리</th>
+    <th style="width: 150px;">최대 한도</th>
+  </tr>
+  </thead>
+  <tbody>
+  <p>hello</p>
+  <tr th:each="owner : ${listOwners}">
+    <td th:text="${owner.provider.name}" />
+    <td th:text="${owner.type.name}" />
+    <td th:text="${owner.interest_rate}" />
+    <td th:text="${owner.max_limit}" />
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -2,10 +2,11 @@ package dev.service.cloud.loan.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@Getter
+@Getter @Setter
 @ToString
 public class LoanResponseDto {
 }
