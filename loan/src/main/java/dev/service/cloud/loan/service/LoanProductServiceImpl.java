@@ -14,9 +14,11 @@ import java.util.List;
 public class LoanProductServiceImpl implements LoanProductService {
     LoanProductRepository loanProductRepository;
 
+
     @Override
-    public List<LoanProduct> findAllLoanProducts() {
-        loanProductRepository.findAll();
-        return List.of();
+    public List<LoanProduct> getLoanProductDetails(Long loanProductId) {
+        System.out.println(loanProductId);
+        return loanProductRepository.findAllById(loanProductId);
+
     }
 }
