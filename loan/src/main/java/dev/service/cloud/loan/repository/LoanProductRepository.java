@@ -1,6 +1,7 @@
 package dev.service.cloud.loan.repository;
 
 import dev.service.cloud.loan.model.LoanProduct;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,14 +17,22 @@ public interface LoanProductRepository extends JpaRepository<LoanProduct, Long> 
      * @param point
      * @return List<LoanProduct> sorted
      */
-    @Query(value = "SELECT * FROM loan_products lp WHERE lp.required_credit_score <= :creditScore AND CURRENT_DATE <= lp.end_date ORDER BY lp.max_limit ASC, lp.interest_rate ASC LIMIT 10",
-            nativeQuery = true)
+    @Query(value =
+            "SELECT lp " +
+                    "FROM LoanProduct lp " +
+                    "LEFT JOIN FETCH lp.provider " +
+                    "LEFT JOIN FETCH lp.loanProductsType " +
+                    "WHERE lp.requiredCreditScore <= :creditScore " +
+                    "AND CURRENT_DATE <= lp.endDate " +
+                    "ORDER BY lp.maxLimit ASC, lp.interestRate ASC")
     List<LoanProduct> findEligibleLoanProducts(@Param("creditScore") int point);
 
     /**
      * 회원 대출 이력이 없는 경우 신용점수 기준으로 상품을 추천
+     *
      * @param memberCreditSocre
      * @return
      */
+    @EntityGraph(attributePaths = {"loanProductsType", "provider", "loanProductsFeature", "applicationMethod"})
     List<LoanProduct> findByRequiredCreditScoreLessThanEqual(Integer memberCreditSocre);
 }

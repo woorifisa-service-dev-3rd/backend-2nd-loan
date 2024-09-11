@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +28,13 @@ public class RecommendServiceImpl implements RecommendService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<LoanProductResponseDto> recommendByPoint(int point) throws Exception {
+    public List<LoanProductResponseDto> recommendByPoint(int point) {
         List<LoanProduct> recommendedProducts = loanProductRepository.findEligibleLoanProducts(point);
-        List<LoanProductResponseDto> recommendedProductsDto = new ArrayList<>();
+        List<LoanProductResponseDto> recommendedProductsDto;
 
         if (recommendedProducts.isEmpty()) {
-            new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, "추천 상품이 없습니다.");
+            throw new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, "추천 상품이 없습니다.");
+
         } else {
             recommendedProductsDto = recommendedProducts.stream()
                     .map(LoanProductResponseDto::fromEntity)
@@ -43,6 +44,7 @@ public class RecommendServiceImpl implements RecommendService {
         return recommendedProductsDto;
     }
 
+    @Transactional
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
         int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, " " + memberId + " 없음")).getCreditScore();

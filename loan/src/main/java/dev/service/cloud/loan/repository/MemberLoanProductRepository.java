@@ -1,9 +1,12 @@
 package dev.service.cloud.loan.repository;
 
 import dev.service.cloud.loan.model.MemberLoanProduct;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      * @param memberId
      * @return
      */
+    @EntityGraph(attributePaths = {"member", "loanProduct"})
     List<MemberLoanProduct> findByMemberId(Long memberId);
 
     /**
@@ -25,4 +29,5 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      */
     @Query("SELECT mlp FROM MemberLoanProduct mlp WHERE mlp.member.id = :memberId AND mlp.endDate > CURRENT_DATE")
     List<MemberLoanProduct> findActiveLoansByMemberId(@Param("memberId") Long memberId);
+
 }
