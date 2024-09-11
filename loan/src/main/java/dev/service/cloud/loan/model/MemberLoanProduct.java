@@ -36,6 +36,13 @@ public class MemberLoanProduct {
     @Column(name = "late_payment_count")
     @Builder.Default
     private Integer latePaymentCount = 0;
+    @Column(name = "goal_amount")
+    private Long goalAmount;
+    @Column(name = "total_paid_amount")
+    private Long totalPaidAmount;
+    @Column(name = "total_repayment_amount")
+    @Builder.Default
+    private Long totalRepaymentAmount = 0L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
