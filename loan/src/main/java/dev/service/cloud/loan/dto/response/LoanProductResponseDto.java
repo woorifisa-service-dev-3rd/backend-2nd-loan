@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -25,7 +27,7 @@ public class LoanProductResponseDto {
     private String applicationMethod;
 
     // fromEntity() 메소드에서 memberLoanProducts 제외
-    public static LoanProductResponseDto toDTO(LoanProduct loanProduct) {
+    public static LoanProductResponseDto toDto(LoanProduct loanProduct) {
         return LoanProductResponseDto.builder()
                 .id(loanProduct.getId())
                 .startDate(loanProduct.getStartDate())
@@ -40,4 +42,9 @@ public class LoanProductResponseDto {
                 .applicationMethod(loanProduct.getApplicationMethod().getName())
                 .build();
     }
+
+    public static List<LoanProductResponseDto> toDtos(List<LoanProduct> loanProducts) {
+        return loanProducts.stream().map(LoanProductResponseDto::toDto).collect(Collectors.toList());    // List.
+    }
+
 }

@@ -30,28 +30,25 @@ public class RecommendServiceImpl implements RecommendService {
     @Override
     public List<LoanProductResponseDto> recommendByPoint(int point) {
         if (point > 1000 || point < 0) {
-            throw new RecommendException(ErrorCode.WRONG_CREDIT_SCORE,"");
+            throw new RecommendException(ErrorCode.WRONG_CREDIT_SCORE, "");
         }
         List<LoanProduct> recommendedProducts = loanProductRepository.findEligibleLoanProducts(point);
-        List<LoanProductResponseDto> recommendedProductsDto;
+        List<LoanProductResponseDto> recommendedProductsDtos;
 
         if (recommendedProducts.isEmpty()) {
             throw new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, "");
         } else {
-            recommendedProductsDto = recommendedProducts.stream()
-                    .map(LoanProductResponseDto::toDTO)
-                    .collect(Collectors.toList());
+            recommendedProductsDtos = LoanProductResponseDto.toDtos(recommendedProducts);
         }
-        log.info("서빙되는 리스트 확인 {}", recommendedProductsDto);
-        return recommendedProductsDto;
+        log.info("서빙되는 리스트 확인 {}", recommendedProductsDtos);
+        return recommendedProductsDtos;
     }
-
 
 
     @Transactional
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
-        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, " memberId:"+ memberId + "없음")).getCreditScore();
+        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, " memberId:" + memberId + "없음")).getCreditScore();
         if (loanHistory.isEmpty()) {
             // 대출 이력이 없는 경우
             log.info("멤버 ID {}는 대출 이력이 없습니다. 초기 사용자에게 맞는 대출 상품을 추천합니다.", memberId);
@@ -74,10 +71,8 @@ public class RecommendServiceImpl implements RecommendService {
         // 신용 점수 이하의 대출 상품을 조회
         List<LoanProduct> recommendedLoans = loanProductRepository.findByRequiredCreditScoreLessThanEqual(memberCreditScore);
 
-        // 조회된 대출 상품을 DTO로 변환해 반환
-        return recommendedLoans.stream()
-                .map(LoanProductResponseDto::toDTO)
-                .collect(Collectors.toList());
+        // 조회된 대출 상품을 DTOs로 변환해 반환
+        return LoanProductResponseDto.toDtos(recommendedLoans);
     }
 
     /**
@@ -112,9 +107,7 @@ public class RecommendServiceImpl implements RecommendService {
         List<LoanProduct> prioritizedLoans = prioritizeByRepaymentPeriod(recommendedLoans, averageRepaymentPeriod);
 
         // 최종적으로 필터링 및 정렬된 대출 상품을 DTO로 변환하여 리턴
-        return prioritizedLoans.stream()
-                .map(LoanProductResponseDto::toDTO)
-                .collect(Collectors.toList());
+        return LoanProductResponseDto.toDtos(prioritizedLoans);
     }
 
     /**
