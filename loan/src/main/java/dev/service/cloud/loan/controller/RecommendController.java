@@ -21,17 +21,11 @@ public class RecommendController {
 
 
     @GetMapping("/recommend")
-    public ResponseEntity<?> recommendByPointLoanProducts(@RequestParam int point)  {
-        try {
-            List<LoanProductResponseDto> recommendedProducts = recommendService.recommendByPoint(point);
-            return ResponseEntity.ok(recommendedProducts);
-        } catch (RecommendException e) {
-            // 추천 상품이 없을 때 404 반환
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            // 기타 예외 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
-        }
+    public ResponseEntity<?> recommendByPointLoanProducts(@RequestParam int point) {
+
+
+        List<LoanProductResponseDto> recommendedProducts = recommendService.recommendByPoint(point);
+        return ResponseEntity.ok(recommendedProducts);
     }
 
 

@@ -19,4 +19,16 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
+    @ExceptionHandler(RecommendException.class)
+    public ResponseEntity<ErrorResponse> handleRecommendException(RecommendException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorCode(ex.getErrorCode().name())
+                .message(ex.getErrorCode().getMessage())
+                .details(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
 }

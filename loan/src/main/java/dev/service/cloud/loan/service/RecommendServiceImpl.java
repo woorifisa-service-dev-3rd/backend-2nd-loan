@@ -3,7 +3,7 @@ package dev.service.cloud.loan.service;
 
 import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 import dev.service.cloud.loan.exception.ErrorCode;
-import dev.service.cloud.loan.exception.NoRecommendedProductsException;
+import dev.service.cloud.loan.exception.RecommendException;
 import dev.service.cloud.loan.model.LoanProduct;
 import dev.service.cloud.loan.model.MemberLoanProduct;
 import dev.service.cloud.loan.repository.LoanProductRepository;
@@ -11,6 +11,8 @@ import dev.service.cloud.loan.repository.MemberLoanProductRepository;
 import dev.service.cloud.loan.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,11 +31,14 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Override
     public List<LoanProductResponseDto> recommendByPoint(int point) {
+        if (point > 1000 || point < 0) {
+            throw new RecommendException(ErrorCode.WRONG_CREDIT_SCORE,"");
+        }
         List<LoanProduct> recommendedProducts = loanProductRepository.findEligibleLoanProducts(point);
         List<LoanProductResponseDto> recommendedProductsDto;
 
         if (recommendedProducts.isEmpty()) {
-            throw new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, "추천 상품이 없습니다.");
+            throw new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, "");
         } else {
             recommendedProductsDto = recommendedProducts.stream()
                     .map(LoanProductResponseDto::fromEntity)
@@ -43,10 +48,12 @@ public class RecommendServiceImpl implements RecommendService {
         return recommendedProductsDto;
     }
 
+
+
     @Transactional
     public List<LoanProductResponseDto> recommendLoanProductsforMember(Long memberId) {
         List<MemberLoanProduct> loanHistory = memberLoanProductRepository.findByMemberId(memberId);
-        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new NoRecommendedProductsException(ErrorCode.RECOMMEND_NOT_FOUND, " " + memberId + " 없음")).getCreditScore();
+        int memberCreditScore = memberRepository.findById(memberId).orElseThrow(() -> new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, " memberId:"+ memberId + "없음")).getCreditScore();
         if (loanHistory.isEmpty()) {
             // 대출 이력이 없는 경우
             log.info("멤버 ID {}는 대출 이력이 없습니다. 초기 사용자에게 맞는 대출 상품을 추천합니다.", memberId);
