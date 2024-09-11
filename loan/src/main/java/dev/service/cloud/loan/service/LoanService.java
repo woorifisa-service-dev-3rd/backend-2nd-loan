@@ -9,4 +9,5 @@ import java.util.List;
 public interface LoanService {
     // 대출상품 리스트조회
     List<LoanProductResponseDto> loansearching();
+    List<LoanProductResponseDto> loansearching_asc();
 }

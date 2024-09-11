@@ -1,17 +1,11 @@
 package dev.service.cloud.loan.dto.response;
 
 import dev.service.cloud.loan.model.LoanProduct;
-import dev.service.cloud.loan.model.LoanProductsType;
-import dev.service.cloud.loan.model.Provider;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Builder
 @Getter @Setter

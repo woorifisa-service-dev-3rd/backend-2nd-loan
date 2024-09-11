@@ -4,10 +4,12 @@ import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 import dev.service.cloud.loan.model.LoanProduct;
 import dev.service.cloud.loan.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -19,13 +21,18 @@ public class LoanProductController {
     private final LoanService loanService;
 
     @GetMapping
-    public ModelAndView test1(LoanProduct loanProduct){
-        ModelAndView mvn = new ModelAndView();
+    public List<LoanProductResponseDto> test1(){
         //DTO 파일 생성하여 순환참조 방지
         List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching();
-        // loanList.html로 이동
-        mvn.setViewName("/loanList");
-        mvn.addObject("listOwners",loanProductResponseDtos);
-        return mvn;
+
+        return loanProductResponseDtos;
+    }
+
+    @GetMapping("/test")
+    public List<LoanProductResponseDto> test2(){
+        //DTO 파일 생성하여 순환참조 방지
+        List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching_asc();
+
+        return loanProductResponseDtos;
     }
 }
