@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class RecommendException extends RuntimeException {
-    private ErrorCode errorCode;
-
+    private final ErrorCode errorCode;
     public RecommendException(ErrorCode errorCode, String message) {
         super(message); 
         this.errorCode = errorCode;
