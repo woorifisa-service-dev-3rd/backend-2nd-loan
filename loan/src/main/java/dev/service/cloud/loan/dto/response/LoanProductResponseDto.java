@@ -25,7 +25,7 @@ public class LoanProductResponseDto {
     private String applicationMethod;
 
     // fromEntity() 메소드에서 memberLoanProducts 제외
-    public static LoanProductResponseDto fromEntity(LoanProduct loanProduct) {
+    public static LoanProductResponseDto toDTO(LoanProduct loanProduct) {
         return LoanProductResponseDto.builder()
                 .id(loanProduct.getId())
                 .startDate(loanProduct.getStartDate())

@@ -41,7 +41,7 @@ public class RecommendServiceImpl implements RecommendService {
             throw new RecommendException(ErrorCode.RECOMMEND_NOT_FOUND, "");
         } else {
             recommendedProductsDto = recommendedProducts.stream()
-                    .map(LoanProductResponseDto::fromEntity)
+                    .map(LoanProductResponseDto::toDTO)
                     .collect(Collectors.toList());
         }
         log.info("서빙되는 리스트 확인 {}", recommendedProductsDto);
@@ -78,7 +78,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         // 조회된 대출 상품을 DTO로 변환해 반환
         return recommendedLoans.stream()
-                .map(LoanProductResponseDto::fromEntity)
+                .map(LoanProductResponseDto::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -115,7 +115,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         // 최종적으로 필터링 및 정렬된 대출 상품을 DTO로 변환하여 리턴
         return prioritizedLoans.stream()
-                .map(LoanProductResponseDto::fromEntity)
+                .map(LoanProductResponseDto::toDTO)
                 .collect(Collectors.toList());
     }
 
