@@ -2,7 +2,7 @@ package dev.service.cloud.loan.controller;
 
 
 import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
-import dev.service.cloud.loan.exception.NoRecommendedProductsException;
+import dev.service.cloud.loan.exception.RecommendException;
 import dev.service.cloud.loan.service.RecommendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +20,12 @@ public class RecommendController {
     private final RecommendService recommendService;
 
 
-    @GetMapping("/recommend/{point}")
-    public ResponseEntity<?> recommendByPointLoanProducts(@PathVariable int point) {
+    @GetMapping("/recommend")
+    public ResponseEntity<?> recommendByPointLoanProducts(@RequestParam int point)  {
         try {
             List<LoanProductResponseDto> recommendedProducts = recommendService.recommendByPoint(point);
             return ResponseEntity.ok(recommendedProducts);
-        } catch (NoRecommendedProductsException e) {
+        } catch (RecommendException e) {
             // 추천 상품이 없을 때 404 반환
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
