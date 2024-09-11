@@ -355,7 +355,6 @@ VALUES (1, '1992-01-15', 5.0, 1000000, 12, 650, 1, 1, 1, 1),
        (99, '2019-03-15', 6.1, 1000000, 48, 700, 3, 1, 2, 11),
        (100, '2019-02-01', 5.8, 2000000, 60, 690, 1, 2, 3, 12);
 
-
 -- MemberLoanProducts 테이블에 더미 데이터 삽입
 INSERT INTO `LOAN`.`member_loan_products`
 (`member_id`, `loan_products_id`, `start_date`, `end_date`, `loan_amount`, `loan_due_date`, `repayment_count`, `late_payment_count`, `goal_amount`, `total_paid_amount`, `total_repayment_amount`)
