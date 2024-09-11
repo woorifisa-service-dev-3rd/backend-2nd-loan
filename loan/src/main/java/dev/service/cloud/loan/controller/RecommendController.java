@@ -20,8 +20,6 @@ public class RecommendController {
 
     @GetMapping("/recommend")
     public ResponseEntity<?> recommendByPointLoanProducts(@RequestParam int point) {
-
-
         List<LoanProductResponseDto> recommendedProducts = recommendService.recommendByPoint(point);
         return ResponseEntity.ok(recommendedProducts);
     }

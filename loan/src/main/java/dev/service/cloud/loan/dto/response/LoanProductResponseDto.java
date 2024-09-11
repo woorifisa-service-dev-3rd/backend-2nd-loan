@@ -26,7 +26,11 @@ public class LoanProductResponseDto {
     private String loanProductsFeature;
     private String applicationMethod;
 
-    // fromEntity() 메소드에서 memberLoanProducts 제외
+    /**
+     * 대출상품 엔티티 -> 대출상품 DTO로 변환 메소드
+     * @param loanProduct
+     * @return LoanProductResponseDto
+     */
     public static LoanProductResponseDto toDto(LoanProduct loanProduct) {
         return LoanProductResponseDto.builder()
                 .id(loanProduct.getId())
@@ -43,6 +47,11 @@ public class LoanProductResponseDto {
                 .build();
     }
 
+    /**
+     * 대출상품 엔티티 리스트 -> 대출상품 엔티티 DTO 변환 메소드
+     * @param loanProducts
+     * @return List<LoanProductResponseDto> 으로 변환
+     */
     public static List<LoanProductResponseDto> toDtos(List<LoanProduct> loanProducts) {
         return loanProducts.stream().map(LoanProductResponseDto::toDto).collect(Collectors.toList());    // List.
     }
