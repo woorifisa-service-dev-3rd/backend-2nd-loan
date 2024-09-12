@@ -45,7 +45,7 @@ public class LoanProductResponseDto {
                 .loanProductsFeature(loanProductsFeature.getName())
                 .maxLimit(loanProduct.getMaxLimit())
                 .repaymentPeriod(loanProduct.getRepaymentPeriod())
-                .applicationMethod(String.valueOf(applicationMethod.getLoanProducts()))
+                .applicationMethod(String.valueOf(applicationMethod.getName()))
                 .requiredCreditScore(loanProduct.getRequiredCreditScore())
                 .provider(provider.getName())
                 .build();

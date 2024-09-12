@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/loan-products")
 @RequiredArgsConstructor
@@ -19,8 +17,8 @@ public class LoanProductController {
     public final LoanProductService loanProductService;
 
     @GetMapping("/{loanProductId}")
-    public ResponseEntity<List<LoanProductResponseDto>> getLoanProductDetails(@PathVariable Long loanProductId) {
-        List<LoanProductResponseDto> loanProduct = loanProductService.getLoanProductDetails(loanProductId);
+    public ResponseEntity<LoanProductResponseDto> getLoanProductDetails(@PathVariable Long loanProductId) {
+        LoanProductResponseDto loanProduct = loanProductService.findById(loanProductId);
         System.out.println(loanProduct);
         return ResponseEntity.ok(loanProduct);
     }
