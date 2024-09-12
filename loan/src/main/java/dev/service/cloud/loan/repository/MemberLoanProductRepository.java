@@ -16,7 +16,7 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      * 회원 아이디로 회원 모든 대출 이력 조회
      *
      * @param memberId
-     * @return
+     * @return List<MemberLoanProduct> 모든 대출 이력
      */
     @EntityGraph(attributePaths = {"member","loanProduct.provider","loanProduct.loanProductsType"})
     List<MemberLoanProduct> findByMemberId(Long memberId);
@@ -26,7 +26,7 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      * 활성화 기준: endDate가 현재 날짜보다 이후일 때
      *
      * @param memberId 회원의 아이디
-     * @return 활성화된 대출 이력 리스트
+     * @return List<MemberLoanProduct> 활성화된 대출 이력 리스트
      */
     @Query("SELECT mlp FROM MemberLoanProduct mlp WHERE mlp.member.id = :memberId AND mlp.endDate > CURRENT_DATE")
     List<MemberLoanProduct> findActiveLoansByMemberId(@Param("memberId") Long memberId);
