@@ -4,16 +4,15 @@ import dev.service.cloud.loan.model.LoanProductsType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 @Builder
 @AllArgsConstructor
-public class TypeResponse {
+public class TypeResponseDto {
     private Long id;
     private String name;
 
-    public static TypeResponse from(LoanProductsType type) {
-        return TypeResponse.builder().id(type.getId()).name(type.getName()).build();
+    public static TypeResponseDto toDto(LoanProductsType type) {
+        return TypeResponseDto.builder().id(type.getId()).name(type.getName()).build();
     }
 }

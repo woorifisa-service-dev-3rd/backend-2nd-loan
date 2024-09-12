@@ -1,17 +1,14 @@
 package dev.service.cloud.loan.service;
 
-import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
-import dev.service.cloud.loan.model.LoanProduct;
-import dev.service.cloud.loan.model.Provider;
+import dev.service.cloud.loan.dto.request.LoanRequestDto;
+import dev.service.cloud.loan.dto.response.LoanResponseDto;
 
 import java.util.List;
 
-public interface LoanService {
-    // 대출상품 리스트조회
-    List<LoanProductResponseDto> loansearching();
-    //오름차순정렬
-    List<LoanProductResponseDto> loansearching_asc(String data);
-    //내림차순정렬
-    List<LoanProductResponseDto> loansearching_desc(String data);
+import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 
+public interface LoanService {
+    List<LoanResponseDto> findAllLoans();
+    LoanResponseDto addNewLoan(LoanRequestDto loanRequestDto);
+    void checkLoanCondition(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount);
 }

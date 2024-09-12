@@ -24,5 +24,6 @@ public class Provider {
 
     @OneToMany(mappedBy = "provider")
     @Builder.Default
+    @ToString.Exclude
     private List<LoanProduct> loanProducts = new ArrayList<>();
 }

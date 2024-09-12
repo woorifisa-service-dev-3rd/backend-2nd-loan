@@ -4,16 +4,15 @@ import dev.service.cloud.loan.model.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 @Builder
 @AllArgsConstructor
-public class ProviderResponse {
+public class ProviderResponseDto {
     private Long id;
     private String name;
 
-    public static ProviderResponse from(Provider provider) {
-        return ProviderResponse.builder().id(provider.getId()).name(provider.getName()).build();
+    public static ProviderResponseDto toDto(Provider provider) {
+        return ProviderResponseDto.builder().id(provider.getId()).name(provider.getName()).build();
     }
 }
