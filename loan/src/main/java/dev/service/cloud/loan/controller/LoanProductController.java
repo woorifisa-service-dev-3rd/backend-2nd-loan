@@ -16,7 +16,6 @@ public class LoanProductController {
     private final LoanProductService loanProductService;
 
     @GetMapping
-
     public List<LoanProductResponseDto> List(@RequestParam(value = "filterName", required = false) String filterName, @RequestParam(value = "conditionName", required = false) String conditionName){
         List<LoanProductResponseDto> loanProductResponseDtos = loanProductService.searchLoansByCondition(filterName,conditionName);
         return loanProductResponseDtos;
