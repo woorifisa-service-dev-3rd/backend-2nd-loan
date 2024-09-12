@@ -18,7 +18,7 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      * @param memberId
      * @return List<MemberLoanProduct> 모든 대출 이력
      */
-    @EntityGraph(attributePaths = {"member","loanProduct.provider","loanProduct.loanProductsType"})
+    @EntityGraph(attributePaths = {"member","loanProduct"})
     List<MemberLoanProduct> findByMemberId(Long memberId);
 
     /**
