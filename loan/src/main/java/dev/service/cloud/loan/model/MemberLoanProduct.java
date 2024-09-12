@@ -1,12 +1,10 @@
 package dev.service.cloud.loan.model;
 
-import dev.service.cloud.loan.dto.request.LoanRequestDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -39,10 +37,10 @@ public class MemberLoanProduct {
     @Column(name = "goal_amount")
     private Long goalAmount;
     @Column(name = "total_paid_amount")
-    private Long totalPaidAmount;
-    @Column(name = "total_repayment_amount")
     @Builder.Default
-    private Long totalRepaymentAmount = 0L;
+    private Long totalPaidAmount = 0L;
+    @Column(name = "total_repayment_amount")
+    private Long totalRepaymentAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -53,13 +51,31 @@ public class MemberLoanProduct {
     @ToString.Exclude
     private LoanProduct loanProduct;
 
-    public static MemberLoanProduct createMemberLoanProduct(Member member, LoanProduct loanProduct, Long loanAmount, LocalDate loanDueDate) {
+    public static MemberLoanProduct createMemberLoanProduct(Member member, LoanProduct loanProduct, Long loanAmount, LocalDate loanDueDate, Long totalRepaymentAmount, Long goalAmount) {
         return MemberLoanProduct.builder()
                 .member(member)
                 .loanProduct(loanProduct)
                 .loanAmount(loanAmount)
                 .loanDueDate(loanDueDate)
+                .totalRepaymentAmount(totalRepaymentAmount)
+                .goalAmount(goalAmount)
                 .build();
     }
 
+    public void repay() {
+        totalPaidAmount += goalAmount;
+        repaymentCount++;
+    }
+
+    public void late(int lateMonth) {
+        latePaymentCount = lateMonth;
+    }
+
+    public void completeRepayment() {
+        endDate = LocalDate.now();
+    }
+
+    public boolean isRepaymentCompleted() {
+        return totalRepaymentAmount.equals(totalPaidAmount);
+    }
 }

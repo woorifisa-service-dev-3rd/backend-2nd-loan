@@ -26,4 +26,10 @@ public class LoanController {
         LoanResponseDto loanResponseDto = loanService.addNewLoan(loanRequestDto);
         return ResponseEntity.ok(loanResponseDto);
     }
+
+    @PatchMapping("/{loanId}")
+    public ResponseEntity<LoanResponseDto> repay(@PathVariable Long loanId) {
+        LoanResponseDto loanResponseDto = loanService.repay(loanId);
+        return ResponseEntity.ok(loanResponseDto);
+    }
 }
