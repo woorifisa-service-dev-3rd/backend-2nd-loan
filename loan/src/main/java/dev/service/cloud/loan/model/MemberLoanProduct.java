@@ -23,7 +23,7 @@ public class MemberLoanProduct {
     private LocalDate startDate;
     @Column(name = "end_date")
     @Builder.Default
-    private LocalDate endDate = LocalDate.of(9999,12,31);
+    private LocalDate endDate = LocalDate.of(9999, 12, 31);
     @Column(name = "loan_amount")
     private Long loanAmount;
     @Column(name = "loan_due_date")
@@ -35,6 +35,18 @@ public class MemberLoanProduct {
     @Builder.Default
     private Integer latePaymentCount = 0;
 
+    @Column(name = "goal_amount")
+    @Builder.Default
+    private Long goalAmount = 0L; // 매달 상환해야 할 금액
+
+    @Column(name = "total_paid_amount")
+    @Builder.Default
+    private Long totalPaidAmount = 0L; // 누적 상환액
+
+    @Column(name = "total_repayment_amount")
+    @Builder.Default
+    private Long totalRepaymentAmount = 0L; // 대출금 + 이자
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @ToString.Exclude
@@ -43,6 +55,7 @@ public class MemberLoanProduct {
     @JoinColumn(name = "loan_products_id")
     @ToString.Exclude
     private LoanProduct loanProduct;
+
 
     public static MemberLoanProduct createMemberLoanProduct(Member member, LoanProduct loanProduct, Long loanAmount, LocalDate loanDueDate) {
         return MemberLoanProduct.builder()
