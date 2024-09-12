@@ -23,9 +23,9 @@ public class MemberController {
     private final LoanService loanService;
 
     /**
-     * 회원의 대출 목록 조회
+     * 회원의 대출이력 목록 조회
      * @param memberId
-     * @return List<LoanResponseDto> 해당 회원의 대출 목록 반환
+     * @return List<LoanResponseDto> 해당 회원의 대출이력 목록 반환
      */
     @GetMapping("{id}/loans")
     public ResponseEntity<List<LoanResponseDto>> getMemberLoanlist(@PathVariable("id") Long memberId) {

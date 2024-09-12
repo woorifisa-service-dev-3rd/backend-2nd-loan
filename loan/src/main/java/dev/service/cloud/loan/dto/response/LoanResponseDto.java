@@ -77,6 +77,7 @@ public class LoanResponseDto {
                 .id(memberLoanProduct.getId())
                 .memberId(member.getId())
                 .memberName(member.getName())
+                .loanProductId(loanProduct.getId())
                 .loanProductTypeName(loanProductsType.getName())
                 .providerName(loanProduct.getProvider().getName())
                 .startDate(memberLoanProduct.getStartDate())

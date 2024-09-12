@@ -8,8 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-import java.util.List;
-
 public interface MemberLoanProductRepository extends JpaRepository<MemberLoanProduct, Long> {
     @EntityGraph(attributePaths = {"member", "loanProduct", "loanProduct.loanProductsType"})
     List<MemberLoanProduct> findAll();
@@ -20,7 +18,7 @@ public interface MemberLoanProductRepository extends JpaRepository<MemberLoanPro
      * @param memberId
      * @return
      */
-    @EntityGraph(attributePaths = {"member", "loanProduct"})
+    @EntityGraph(attributePaths = {"member","loanProduct.provider","loanProduct.loanProductsType"})
     List<MemberLoanProduct> findByMemberId(Long memberId);
 
     /**

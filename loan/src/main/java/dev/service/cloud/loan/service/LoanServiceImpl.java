@@ -20,7 +20,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -99,7 +98,8 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private void checkLoanIsActive(LocalDate endDate) {
-        if(endDate.isBefore(LocalDate.now()) && endDate.isEqual(LocalDate.now())) throw new LoanException(ErrorCode.LOAN_FINISHED, "대출 종료일 : " + endDate);
+        if (endDate.isBefore(LocalDate.now()) && endDate.isEqual(LocalDate.now()))
+            throw new LoanException(ErrorCode.LOAN_FINISHED, "대출 종료일 : " + endDate);
     }
 
     private int checkSequence(LocalDate startDate, int repaymentCount) {
@@ -108,7 +108,8 @@ public class LoanServiceImpl implements LoanService {
         int sequence = getSequence(startDate);
         log.debug("sequence : " + sequence);
 
-        if (repaymentCount > sequence) throw new LoanException(ErrorCode.OVER_REPAY_COUNT, "상환 회차 : " + sequence + " 상환 횟수 : " + repaymentCount);
+        if (repaymentCount > sequence)
+            throw new LoanException(ErrorCode.OVER_REPAY_COUNT, "상환 회차 : " + sequence + " 상환 횟수 : " + repaymentCount);
 
         if (repaymentCount < sequence) {
             lateMonth = sequence - repaymentCount;
@@ -126,7 +127,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private void checkRepaymentCompleted(MemberLoanProduct loan) {
-        if(loan.isRepaymentCompleted()) {
+        if (loan.isRepaymentCompleted()) {
             log.debug("complete repayment");
             loan.completeRepayment();
         }
@@ -136,17 +137,16 @@ public class LoanServiceImpl implements LoanService {
     /**
      * findByMemberId : JpaRepository 에서 제공하는 쿼리 메소드를 사용
      * 해당 회원이 포함된 모든 대출 이력 조회
+     *
      * @param memberId
      * @return List<LoanResponseDto>
      */
     @Override
     public List<LoanResponseDto> getLoanListByMemberId(Long memberId) {
         List<LoanResponseDto> servingLoanList
-                = memberLoanProductRepository.findByMemberId(memberId).stream()
-                .map(LoanResponseDto::toDto4membersLoanlist)
-                .collect(Collectors.toList());
+                = LoanResponseDto.toHistoryDtos(memberLoanProductRepository.findByMemberId(memberId));
         if (servingLoanList.isEmpty()) {
-            throw new LoanException(ErrorCode.MEMBER_LOAN_PRODUCT_NOT_FOUND, "회원 아이디 : " + memberId);
+            throw new LoanException(ErrorCode.LOAN_HISTORY_NOT_FOUND, "회원 아이디 : " + memberId);
         }
         return servingLoanList;
     }
