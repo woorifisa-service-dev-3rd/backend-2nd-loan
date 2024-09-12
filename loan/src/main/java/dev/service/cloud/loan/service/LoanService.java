@@ -10,5 +10,5 @@ import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 public interface LoanService {
     List<LoanResponseDto> findAllLoans();
     LoanResponseDto addNewLoan(LoanRequestDto loanRequestDto);
-    void checkLoanCondition(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount);
+    LoanResponseDto repay(Long loanId);
 }

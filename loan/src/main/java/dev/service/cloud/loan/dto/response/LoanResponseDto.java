@@ -20,23 +20,36 @@ public class LoanResponseDto {
     private String memberName;
     private String loanProductTypeName;
     private LocalDate startDate;
+    private LocalDate endDate;
     private Long loanAmount;
     private LocalDate loanDueDate;
+    private Integer repaymentCount;
+    private Integer latePaymentCount;
+    private Long memberId;
+    private Long loanProductId;
+    private Long goalAmount;
+    private Long totalPaidAmount;
+    private Long totalRepaymentAmount;
 
     public static LoanResponseDto toDto(MemberLoanProduct memberLoanProduct) {
         Member member = memberLoanProduct.getMember();
-        System.out.println("member = " + member);
         LoanProduct loanProduct = memberLoanProduct.getLoanProduct();
-        System.out.println("loanProduct = " + loanProduct);
         LoanProductsType loanProductsType = loanProduct.getLoanProductsType();
-        System.out.println("loanProductsType = " + loanProductsType);
 
         return LoanResponseDto.builder()
                 .memberName(member.getName())
                 .loanProductTypeName(loanProductsType.getName())
                 .startDate(memberLoanProduct.getStartDate())
+                .endDate(memberLoanProduct.getEndDate())
                 .loanAmount(memberLoanProduct.getLoanAmount())
                 .loanDueDate(memberLoanProduct.getLoanDueDate())
+                .repaymentCount(memberLoanProduct.getRepaymentCount())
+                .latePaymentCount(memberLoanProduct.getLatePaymentCount())
+                .goalAmount(memberLoanProduct.getGoalAmount())
+                .totalPaidAmount(memberLoanProduct.getTotalPaidAmount())
+                .totalRepaymentAmount(memberLoanProduct.getTotalRepaymentAmount())
+                .memberId(member.getId())
+                .loanProductId(loanProduct.getId())
                 .build();
     }
 
