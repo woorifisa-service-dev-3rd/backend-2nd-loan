@@ -1,3 +1,4 @@
+USE LOAN;
 DROP TABLE IF EXISTS member_loan_products;
 DROP TABLE IF EXISTS loan_products;
 DROP TABLE IF EXISTS application_method;
