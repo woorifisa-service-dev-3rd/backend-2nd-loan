@@ -23,13 +23,12 @@ public class LoanProductServiceImpl implements LoanProductService {
 
     @Override
     public LoanProductResponseDto findById(Long loandId) {
-//        loanProductRepository.findById(loandId).get();
         loanProductRepository.findById(loandId).orElseThrow(() ->
                 new LoanException(ErrorCode.LOAN_PRODUCT_NOT_FOUND, "ff")
         );
         LoanProduct tmp = loanProductRepository.findById(loandId).get();
         log.info("{}", tmp.toString());
-        return LoanProductResponseDto.toDto(tmp);
+        return LoanProductResponseDto.detailToDto(tmp);
     }
 
     @Override

@@ -31,15 +31,14 @@ public class LoanProductResponseDto {
 
 
     public static LoanProductResponseDto detailToDto(LoanProduct loanProduct) {
-        String featureName = loanProduct.getLoanProductsFeature().getName();
         LoanProductsFeature loanProductsFeature = loanProduct.getLoanProductsFeature();
         ApplicationMethod applicationMethod = loanProduct.getApplicationMethod();
         LoanProductsType loanProductsType = loanProduct.getLoanProductsType();
         Provider provider = loanProduct.getProvider();
 
-        System.out.println("featureName = " + featureName);
-        System.out.println("loanProductsFeature = " + loanProductsFeature);
-        System.out.println("applicationMethod = " + applicationMethod);
+//        System.out.println("featureName = " + featureName);
+//        System.out.println("loanProductsFeature = " + loanProductsFeature);
+//        System.out.println("applicationMethod = " + applicationMethod);
 
         return LoanProductResponseDto.builder()
                 .loanProductsType(loanProductsType.getName())
