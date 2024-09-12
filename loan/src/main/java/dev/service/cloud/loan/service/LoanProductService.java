@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface LoanProductService {
     // 대출상품 리스트조회
-    List<LoanProductResponseDto> searchLoans(String sort, String data);
-
+    List<LoanProductResponseDto> searchLoansByCondition(String filterName, String ConditionName);
 }

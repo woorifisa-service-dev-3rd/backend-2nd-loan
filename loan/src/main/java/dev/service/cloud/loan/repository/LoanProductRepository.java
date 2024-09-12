@@ -3,12 +3,13 @@ package dev.service.cloud.loan.repository;
 import dev.service.cloud.loan.model.LoanProduct;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface LoanProductRepository extends JpaRepository<LoanProduct, Long> {
+public interface LoanProductRepository extends JpaRepository<LoanProduct, Long>{
     /**
      * creditScore : 신용점수 or 조사점수
      * 전달받은 점수를 기준으로 신청 가능한 상품중 대출중인 상품들을
@@ -35,4 +36,15 @@ public interface LoanProductRepository extends JpaRepository<LoanProduct, Long> 
      */
     @EntityGraph(attributePaths = {"loanProductsType", "provider", "loanProductsFeature", "applicationMethod"})
     List<LoanProduct> findByRequiredCreditScoreLessThanEqual(Integer memberCreditSocre);
+
+    List<LoanProduct> findAllByOrderByMaxLimitAsc();
+    List<LoanProduct> findAllByOrderByInterestRateAsc();
+    List<LoanProduct> findAllByOrderByRequiredCreditScoreAsc();
+
+    List<LoanProduct> findAllByLoanProductsFeatureName(String ConditionName);
+    List<LoanProduct> applicationMethodName(String ConditionName);
+    List<LoanProduct> findAllByRepaymentPeriod(Long ConditionName);
+    List<LoanProduct> findAllByProviderName(String ConditionName);
+    List<LoanProduct> findAllByLoanProductsTypeName(String ConditionName);
+
 }
