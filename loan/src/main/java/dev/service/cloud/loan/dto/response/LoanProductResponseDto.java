@@ -1,6 +1,6 @@
 package dev.service.cloud.loan.dto.response;
 
-import dev.service.cloud.loan.model.LoanProduct;
+import dev.service.cloud.loan.model.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,21 +14,47 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 public class LoanProductResponseDto {
+
+    private String loanProductsType;  //대출유형
+    private BigDecimal interestRate;    //이자율
+    private Integer maxLimit;   //대출한도
+    private Long repaymentPeriod;  //상환기간
+    private String loanProductsFeature;    //상품특징Id에 대한 이름
+    private String applicationMethod;    //대출신청방법 id에 대한 대출신청방법
+    private Integer requiredCreditScore;
+    private String provider;
+
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private BigDecimal interestRate;
-    private Integer maxLimit;
-    private Long repaymentPeriod;
-    private Integer requiredCreditScore;
     private String loanProductsTypeName;  // loanProductsType의 이름만 반환
-    private String provider;
-    private String loanProductsFeature;
-    private String applicationMethod;
 
+
+    public static LoanProductResponseDto detailToDto(LoanProduct loanProduct) {
+        LoanProductsFeature loanProductsFeature = loanProduct.getLoanProductsFeature();
+        ApplicationMethod applicationMethod = loanProduct.getApplicationMethod();
+        LoanProductsType loanProductsType = loanProduct.getLoanProductsType();
+        Provider provider = loanProduct.getProvider();
+
+//        System.out.println("featureName = " + featureName);
+//        System.out.println("loanProductsFeature = " + loanProductsFeature);
+//        System.out.println("applicationMethod = " + applicationMethod);
+
+        return LoanProductResponseDto.builder()
+                .loanProductsType(loanProductsType.getName())
+                .interestRate(loanProduct.getInterestRate())
+                .loanProductsFeature(loanProductsFeature.getName())
+                .maxLimit(loanProduct.getMaxLimit())
+                .repaymentPeriod(loanProduct.getRepaymentPeriod())
+                .applicationMethod(String.valueOf(applicationMethod.getName()))
+                .requiredCreditScore(loanProduct.getRequiredCreditScore())
+                .provider(provider.getName())
+                .build();
+    }
 
     /**
      * 대출상품 엔티티 -> 대출상품 DTO로 변환 메소드
+     *
      * @param loanProduct
      * @return LoanProductResponseDto
      */
@@ -50,6 +76,7 @@ public class LoanProductResponseDto {
 
     /**
      * 대출상품 엔티티 리스트 -> 대출상품 엔티티 DTO 변환 메소드
+     *
      * @param loanProducts
      * @return List<LoanProductResponseDto> 으로 변환
      */

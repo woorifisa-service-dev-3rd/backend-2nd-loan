@@ -98,7 +98,8 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private void checkLoanIsActive(LocalDate endDate) {
-        if(endDate.isBefore(LocalDate.now()) && endDate.isEqual(LocalDate.now())) throw new LoanException(ErrorCode.LOAN_FINISHED, "대출 종료일 : " + endDate);
+        if (endDate.isBefore(LocalDate.now()) && endDate.isEqual(LocalDate.now()))
+            throw new LoanException(ErrorCode.LOAN_FINISHED, "대출 종료일 : " + endDate);
     }
 
     private int checkSequence(LocalDate startDate, int repaymentCount) {
@@ -107,7 +108,8 @@ public class LoanServiceImpl implements LoanService {
         int sequence = getSequence(startDate);
         log.debug("sequence : " + sequence);
 
-        if (repaymentCount > sequence) throw new LoanException(ErrorCode.OVER_REPAY_COUNT, "상환 회차 : " + sequence + " 상환 횟수 : " + repaymentCount);
+        if (repaymentCount > sequence)
+            throw new LoanException(ErrorCode.OVER_REPAY_COUNT, "상환 회차 : " + sequence + " 상환 횟수 : " + repaymentCount);
 
         if (repaymentCount < sequence) {
             lateMonth = sequence - repaymentCount;
@@ -125,7 +127,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     private void checkRepaymentCompleted(MemberLoanProduct loan) {
-        if(loan.isRepaymentCompleted()) {
+        if (loan.isRepaymentCompleted()) {
             log.debug("complete repayment");
             loan.completeRepayment();
         }
