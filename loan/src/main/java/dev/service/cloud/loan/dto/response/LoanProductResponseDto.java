@@ -6,6 +6,12 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * 대출 상품 상세 조회 - Yoon
+ **/
 
 @Builder
 @Getter
@@ -22,7 +28,7 @@ public class LoanProductResponseDto {
     private String provider;
 
 
-    public static LoanProductResponseDto from(LoanProduct loanProduct) {
+    public static LoanProductResponseDto toDto(LoanProduct loanProduct) {
         String featureName = loanProduct.getLoanProductsFeature().getName();
         LoanProductsFeature loanProductsFeature = loanProduct.getLoanProductsFeature();
         ApplicationMethod applicationMethod = loanProduct.getApplicationMethod();
@@ -31,6 +37,7 @@ public class LoanProductResponseDto {
 
         System.out.println("featureName = " + featureName);
         System.out.println("loanProductsFeature = " + loanProductsFeature);
+        System.out.println("applicationMethod = " + applicationMethod);
 
         return LoanProductResponseDto.builder()
                 .loanProductsType(loanProductsType.getName())
@@ -43,4 +50,12 @@ public class LoanProductResponseDto {
                 .provider(provider.getName())
                 .build();
     }
+
+    public static List<LoanProductResponseDto> toDtos(List<LoanProduct> loanProducts) {
+        return loanProducts.stream()
+                .map(it -> toDto(it))
+                .collect(Collectors.toList());
+    }
+
+
 }
