@@ -24,7 +24,7 @@ public class LoanProductServiceImpl implements LoanProductService {
     @Override
     public LoanProductResponseDto findById(Long loandId) {
         loanProductRepository.findById(loandId).orElseThrow(() ->
-                new LoanException(ErrorCode.LOAN_PRODUCT_NOT_FOUND, "ff")
+                new LoanException(ErrorCode.LOAN_PRODUCT_NOT_FOUND,"ID에 해당하는 대출 상품을 찾을 수 없습니다.")
         );
         LoanProduct tmp = loanProductRepository.findById(loandId).get();
         log.info("{}", tmp.toString());
