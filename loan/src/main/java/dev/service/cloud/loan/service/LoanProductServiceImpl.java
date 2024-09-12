@@ -27,6 +27,16 @@ public class LoanProductServiceImpl implements LoanProductService {
     private final LoanProductRepository loanProductRepository;
 
     @Override
+    public LoanProductResponseDto findById(Long loandId) {
+        loanProductRepository.findById(loandId).orElseThrow(() ->
+                new LoanException(ErrorCode.LOAN_PRODUCT_NOT_FOUND, "ID " + loandId +"가 없습니다.")
+        );
+        LoanProduct tmp = loanProductRepository.findById(loandId).get();
+        log.info("{}", tmp.toString());
+        return LoanProductResponseDto.detailToDto(tmp);
+    }
+
+    @Override
     public List<LoanProductResponseDto> searchLoansByCondition(String filterName, String conditionName) {
         List<LoanProduct> loanProducts = new ArrayList<>();
         if(filterName == null && conditionName == null){
