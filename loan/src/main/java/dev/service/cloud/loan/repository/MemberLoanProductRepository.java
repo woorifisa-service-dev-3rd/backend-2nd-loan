@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.List;
 
 public interface MemberLoanProductRepository extends JpaRepository<MemberLoanProduct, Long> {
+    @EntityGraph(attributePaths = {"member", "loanProduct", "loanProduct.loanProductsType"})
+    List<MemberLoanProduct> findAll();
+
     /**
      * 회원 아이디로 회원 모든 대출 이력 조회
      *

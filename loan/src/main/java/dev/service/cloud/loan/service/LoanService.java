@@ -8,6 +8,7 @@ import java.util.List;
 public interface LoanService {
     List<LoanResponseDto> findAllLoans();
     LoanResponseDto addNewLoan(LoanRequestDto loanRequestDto);
+    LoanResponseDto repay(Long loanId);
     void checkLoanCondition(int memberCreditScore, int requiredCreditScore, int loanMaxLimit, long loanAmount);
 
     List<LoanResponseDto> getLoanListByMemberId(Long memberId);

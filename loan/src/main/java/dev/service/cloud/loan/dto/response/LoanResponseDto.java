@@ -25,30 +25,35 @@ public class LoanResponseDto {
     private String providerName;
     private String loanProductTypeName;
     private LocalDate startDate;
+    private LocalDate endDate;
+    private Long loanAmount;
     private LocalDate loanDueDate;
-    private Long loanAmount; // 대출금
-    private Long goalAmount; // 매달 상환해야 할 금액
-    private Long totalPaidAmount; // 여태 상환액
-    private Long totalRepaymentAmount; // 대출금 + 이자
-
-    private int repaymentCount;
-    private int latePayment;
-
+    private Integer repaymentCount;
+    private Integer latePaymentCount;
+    private Long loanProductId;
+    private Long goalAmount;
+    private Long totalPaidAmount;
+    private Long totalRepaymentAmount;
 
     public static LoanResponseDto toDto(MemberLoanProduct memberLoanProduct) {
         Member member = memberLoanProduct.getMember();
-        System.out.println("member = " + member);
         LoanProduct loanProduct = memberLoanProduct.getLoanProduct();
-        System.out.println("loanProduct = " + loanProduct);
         LoanProductsType loanProductsType = loanProduct.getLoanProductsType();
-        System.out.println("loanProductsType = " + loanProductsType);
 
         return LoanResponseDto.builder()
                 .memberName(member.getName())
                 .loanProductTypeName(loanProductsType.getName())
                 .startDate(memberLoanProduct.getStartDate())
+                .endDate(memberLoanProduct.getEndDate())
                 .loanAmount(memberLoanProduct.getLoanAmount())
                 .loanDueDate(memberLoanProduct.getLoanDueDate())
+                .repaymentCount(memberLoanProduct.getRepaymentCount())
+                .latePaymentCount(memberLoanProduct.getLatePaymentCount())
+                .goalAmount(memberLoanProduct.getGoalAmount())
+                .totalPaidAmount(memberLoanProduct.getTotalPaidAmount())
+                .totalRepaymentAmount(memberLoanProduct.getTotalRepaymentAmount())
+                .memberId(member.getId())
+                .loanProductId(loanProduct.getId())
                 .build();
     }
 
@@ -81,7 +86,7 @@ public class LoanResponseDto {
                 .totalPaidAmount(memberLoanProduct.getTotalPaidAmount())
                 .totalRepaymentAmount(memberLoanProduct.getTotalRepaymentAmount())
                 .repaymentCount(memberLoanProduct.getRepaymentCount())
-                .latePayment(memberLoanProduct.getLatePaymentCount())
+                .latePaymentCount(memberLoanProduct.getLatePaymentCount())
                 .build();
 
     }
