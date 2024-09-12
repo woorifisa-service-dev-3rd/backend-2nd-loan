@@ -9,4 +9,6 @@ import java.util.List;
 public interface MemberLoanProductRepository extends JpaRepository<MemberLoanProduct, Long> {
     @EntityGraph(attributePaths = {"member", "loanProduct", "loanProduct.loanProductsType"})
     List<MemberLoanProduct> findAll();
+
+    List<MemberLoanProduct> findByMemberId(Long memberId);
 }
