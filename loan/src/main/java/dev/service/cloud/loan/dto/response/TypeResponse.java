@@ -1,7 +1,6 @@
 package dev.service.cloud.loan.dto.response;
 
 import dev.service.cloud.loan.model.LoanProductsType;
-import dev.service.cloud.loan.model.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

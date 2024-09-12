@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class LoanProductResponseDto {
     private BigDecimal interest_rate;
     private Long max_limit;
-
+    private int required_credit_score;
     private TypeResponse type;
     private ProviderResponse provider;
 
@@ -21,9 +21,10 @@ public class LoanProductResponseDto {
         // Owner 엔터티 내 값들을 추출
         final BigDecimal interestRate= loanProduct.getInterestRate();
         final Long maxLimit = loanProduct.getMaxLimit();
+        final int requiredCreditScore = loanProduct.getRequiredCreditScore();
         final TypeResponse type = TypeResponse.from(loanProduct.getLoanProductsType());
         final ProviderResponse provider = ProviderResponse.from(loanProduct.getProvider());
         // DTO 반환
-        return new LoanProductResponseDto(interestRate,maxLimit,type,provider);
+        return new LoanProductResponseDto(interestRate,maxLimit,requiredCreditScore,type,provider);
     }
 }

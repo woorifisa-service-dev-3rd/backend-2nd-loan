@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,18 +21,26 @@ public class LoanProductController {
 
     private final LoanService loanService;
 
-    @GetMapping
-    public List<LoanProductResponseDto> test1(){
+    @GetMapping("/loanAllItems")
+    public List<LoanProductResponseDto> List(){
         //DTO 파일 생성하여 순환참조 방지
         List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching();
 
         return loanProductResponseDtos;
     }
 
-    @GetMapping("/test")
-    public List<LoanProductResponseDto> test2(){
+    @GetMapping("/loanAllItems/asc")
+    public List<LoanProductResponseDto> ascendingAboutList(@RequestParam String data){
         //DTO 파일 생성하여 순환참조 방지
-        List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching_asc();
+        List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching_asc(data);
+
+        return loanProductResponseDtos;
+    }
+
+    @GetMapping("/loanAllItems/desc")
+    public List<LoanProductResponseDto> descendingAboutList(@RequestParam String data){
+        //DTO 파일 생성하여 순환참조 방지
+        List<LoanProductResponseDto> loanProductResponseDtos = loanService.loansearching_desc(data);
 
         return loanProductResponseDtos;
     }
