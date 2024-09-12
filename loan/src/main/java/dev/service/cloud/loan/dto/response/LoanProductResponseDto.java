@@ -1,6 +1,6 @@
 package dev.service.cloud.loan.dto.response;
 
-import dev.service.cloud.loan.model.*;
+import dev.service.cloud.loan.model.LoanProduct;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -25,6 +25,7 @@ public class LoanProductResponseDto {
     private String provider;
     private String loanProductsFeature;
     private String applicationMethod;
+
 
     /**
      * 대출상품 엔티티 -> 대출상품 DTO로 변환 메소드
@@ -55,5 +56,4 @@ public class LoanProductResponseDto {
     public static List<LoanProductResponseDto> toDtos(List<LoanProduct> loanProducts) {
         return loanProducts.stream().map(LoanProductResponseDto::toDto).collect(Collectors.toList());    // List.
     }
-
 }
