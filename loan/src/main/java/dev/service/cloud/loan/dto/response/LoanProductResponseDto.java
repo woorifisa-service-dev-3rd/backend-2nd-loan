@@ -25,7 +25,6 @@ public class LoanProductResponseDto {
     private String provider;
     private String loanProductsFeature;
     private String applicationMethod;
-    private String type;
 
 
     /**
@@ -46,7 +45,6 @@ public class LoanProductResponseDto {
                 .provider(loanProduct.getProvider().getName())
                 .loanProductsFeature(loanProduct.getLoanProductsFeature().getName())
                 .applicationMethod(loanProduct.getApplicationMethod().getName())
-                .type(loanProduct.getLoanProductsType().getName())
                 .build();
     }
 
