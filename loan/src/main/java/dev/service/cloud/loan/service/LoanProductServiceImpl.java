@@ -2,9 +2,15 @@ package dev.service.cloud.loan.service;
 
 import dev.service.cloud.loan.constants.LoanProductSortCondition;
 import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
+import dev.service.cloud.loan.exception.ErrorCode;
+import dev.service.cloud.loan.exception.LoanException;
 import dev.service.cloud.loan.model.LoanProduct;
 import dev.service.cloud.loan.repository.LoanProductRepository;
 import lombok.RequiredArgsConstructor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +22,18 @@ import static dev.service.cloud.loan.constants.LoanProductSortCondition.*;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class LoanProductServiceImpl implements LoanProductService{
+@Slf4j
+public class LoanProductServiceImpl implements LoanProductService {
     private final LoanProductRepository loanProductRepository;
 
     @Override
     public List<LoanProductResponseDto> searchLoansByCondition(String filterName, String conditionName) {
-        System.out.println(filterName +" and " + conditionName);
         List<LoanProduct> loanProducts = new ArrayList<>();
         if(filterName == null && conditionName == null){
             loanProducts = loanProductRepository.findAll();
             List<LoanProductResponseDto> loanProductResponseDtos = LoanProductResponseDto.toDtos(loanProducts);
             return loanProductResponseDtos;
+
         }
         if(filterName != null && !filterName.isEmpty() && conditionName == null) {
             if (filterName.equals("maxLimit")) {

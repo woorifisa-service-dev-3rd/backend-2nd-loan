@@ -23,7 +23,7 @@ public class MemberLoanProduct {
     private LocalDate startDate;
     @Column(name = "end_date")
     @Builder.Default
-    private LocalDate endDate = LocalDate.of(9999,12,31);
+    private LocalDate endDate = LocalDate.of(9999, 12, 31);
     @Column(name = "loan_amount")
     private Long loanAmount;
     @Column(name = "loan_due_date")

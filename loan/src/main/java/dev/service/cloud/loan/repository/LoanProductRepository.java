@@ -8,8 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface LoanProductRepository extends JpaRepository<LoanProduct, Long>{
+
+public interface LoanProductRepository extends JpaRepository<LoanProduct, Long> {
+
+    @EntityGraph(attributePaths = {"loanProductsFeature", "applicationMethod", "loanProductsType", "provider"})
+    Optional<LoanProduct> findById(Long loanId);
+
+
     /**
      * creditScore : 신용점수 or 조사점수
      * 전달받은 점수를 기준으로 신청 가능한 상품중 대출중인 상품들을
