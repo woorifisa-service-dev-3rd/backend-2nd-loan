@@ -11,4 +11,6 @@ public interface LoanService {
     LoanResponseDto addNewLoan(LoanRequestDto loanRequestDto);
 
     LoanResponseDto repay(Long loanId);
+
+    List<LoanResponseDto> getLoanListByMemberId(Long memberId);
 }

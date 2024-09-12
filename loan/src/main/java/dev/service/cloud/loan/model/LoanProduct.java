@@ -1,5 +1,6 @@
 package dev.service.cloud.loan.model;
 
+import dev.service.cloud.loan.dto.response.LoanProductResponseDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -53,5 +54,6 @@ public class LoanProduct {
     @OneToMany(mappedBy = "loanProduct")
     @Builder.Default
     private List<MemberLoanProduct> memberLoanProducts = new ArrayList<>();
+
 
 }
