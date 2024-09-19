@@ -10,6 +10,5 @@ public interface LoanProductService {
     LoanProductResponseDto findById(Long loandId);
 
     // 대출상품 리스트조회
-    List<LoanProductResponseDto> searchLoans(String sort, String data);
-
+    List<LoanProductResponseDto> searchLoansByCondition(String filterName, String ConditionName);
 }
